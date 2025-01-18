@@ -1,0 +1,770 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper]{geometry}
+\geometry{left=2.0cm,right=2.0cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage{ctex} % 支持中文的LaTeX宏包
+\usepackage{amsmath,amsfonts,graphicx,amssymb,bm,amsthm,mathrsfs,mathtools,breqn} % 数学公式和符号的宏包集合
+\usepackage{algorithm,algorithmicx} % 算法和伪代码的宏包
+\usepackage[noend]{algpseudocode} % 算法和伪代码的宏包
+\usepackage{fancyhdr} % 自定义页眉页脚的宏包
+\usepackage[framemethod=TikZ]{mdframed} % 创建带边框的框架的宏包
+\usepackage{fontspec} % 字体设置的宏包
+\setmainfont{Times New Roman} % Set the main font to Times New Roman
+\usepackage{adjustbox} % 调整盒子大小的宏包
+\usepackage{fontsize} % 设置字体大小的宏包
+\usepackage{tikz,xcolor} % 绘制图形和使用颜色的宏包
+\usepackage{multicol} % 多栏排版的宏包
+\usepackage{multirow} % 表格中合并单元格的宏包
+\usepackage{pdfpages} % 插入PDF文件的宏包
+\RequirePackage{listings} % 在文档中插入源代码的宏包
+\RequirePackage{xcolor} % 定义和使用颜色的宏包
+\usepackage{wrapfig} % 文字绕排图片的宏包
+\usepackage{bigstrut,multirow,rotating} % 支持在表格中使用特殊命令的宏包
+\usepackage{booktabs} % 创建美观的表格的宏包
+\usepackage{circuitikz} % 绘制电路图的宏包
+\usepackage{float} % Add this in the preamble
+\usepackage{array}
+\usepackage{subcaption}
+\usepackage{physics}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{siunitx}
+
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{
+	frame=tb,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	framerule=1pt,
+	rulecolor=\color{gray!35},
+	backgroundcolor=\color{gray!5},
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3,
+}
+
+% 轻松引用, 可以用\cref{}指令直接引用, 自动加前缀. 
+% 例: 图片label为fig:1
+% \cref{fig:1} => Figure.1
+% \ref{fig:1}  => 1
+\usepackage[capitalize]{cleveref}
+% \crefname{section}{Sec.}{Secs.}
+\Crefname{section}{Section}{Sections}
+\Crefname{table}{Table}{Tables}
+\crefname{table}{Table.}{Tabs.}
+
+\setmainfont{Times New Roman}
+
+
+
+%改这里可以修改实验报告表头的信息
+\newcommand{\experiName}{傅里叶光学}
+\newcommand{\supervisor}{左战春}
+\newcommand{\name}{徐博涵}
+\newcommand{\studentNum}{2023K8009908004}
+\newcommand{\class}{1}
+\newcommand{\group}{04}
+\newcommand{\seat}{6}
+\newcommand{\dateYear}{2024}
+\newcommand{\dateMonth}{12}
+\newcommand{\dateDay}{02}
+\newcommand{\room}{705}
+\newcommand{\others}{$\square$}
+%% 如果是调课、补课, 改为: $\square$\hspace{-1em}$\surd$
+%% 否则, 请用: $\square$
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+	
+	%若需在页眉部分加入内容, 可以在这里输入
+	% \pagestyle{fancy}
+	% \lhead{\kaishu 测试}
+	% \chead{}
+	% \rhead{}
+	
+	\begin{center}
+		\LARGE \bf 《\, 基\, 础\, 物\, 理\, 实\, 验\, 》\, 实\, 验\, 报\, 告
+	\end{center}
+	
+	\begin{center}
+		\noindent \emph{实验名称}\underline{\makebox[25em][c]{\experiName}}
+		\emph{指导教师}\underline{\makebox[8em][c]{\supervisor}}\\
+		\emph{姓名}\underline{\makebox[6em][c]{\name}} 
+		% 如果名字比较长, 可以修改box的长度"6em"
+		\emph{学号}\underline{\makebox[10em][c]{\studentNum}}
+		\emph{分班分组及座号} \underline{\makebox[5em][c]{\class \ -\ \group \ -\ \seat }\emph{号}} （\emph{例}:\, 1\,-\,04\,-\,5\emph{号}）\\
+		\emph{实验日期} \underline{\makebox[3em][c]{\dateYear}}\emph{年}
+		\underline{\makebox[2em][c]{\dateMonth}}\emph{月}
+		\underline{\makebox[2em][c]{\dateDay}}\emph{日}
+		\emph{实验地点}\underline{{\makebox[4em][c]\room}}
+		\emph{调课/补课} \underline{\makebox[3em][c]{\others\ 是}}
+		\emph{成绩评定} \underline{\hspace{5em}}
+		{\noindent}
+		\rule[8pt]{17cm}{0.2em}
+	\end{center}	
+	
+	\section{实验原理}
+	下面将以余弦光栅为例，简单导出频谱面等概念。
+	
+	考虑一个透射率函数为$t{x}$的余弦光栅，其中$t(x)$满足：
+	\[t(x)=t_0+t_1\cos (2 \pi f x+\varphi)\]
+	其中$f$为余弦光栅的空间频率。
+	
+	当一束平面波射入时，其入射波复振幅可以写为：
+	\[U_i(x,y)=A\]
+	其中A为常数。
+	
+	当平面波穿过余弦光栅时，其出射复振幅可以写为：
+	\begin{align*}
+		U_f(x,y)=A \cdot t(x) &=A \cdot (t_0+t_1\cos (2 \pi f x+\varphi)) \\
+		 &=A\left(t_0+t_1\frac{e^{i(2 \pi f x+\varphi)}+e^{-i(2 \pi f x+\varphi)}}{2}\right) \\
+		 &=A\ t_0+\frac{1}{2} A  t_1 e^{i(2 \pi f x+\varphi)}+\frac{1}{2} A  t_1 e^{-i(2 \pi f x+\varphi)}	
+	\end{align*}
+	
+	而$\frac{1}{2} A  t_1 e^{i(2 \pi f x+\varphi)}$和$\frac{1}{2} A  t_1 e^{-i(2 \pi f x+\varphi)}	$分别可以看作以$\sin \theta_+=f \lambda$和$\sin \theta_-=-f \lambda$传播的光，其中$\theta$为在x-z平面内与x轴的夹角大小。
+	
+	此时若在后方放一透镜，则此二束平行光将在透镜的后焦面上形成两个光斑，这相当于对透镜前的屏函数做一傅里叶变换，后焦面即为傅里叶变换后的频谱面。
+	
+	如果将两个焦距$F$相同的透镜相隔$2F$放置，则可以看作一4$F$成像系统，其可以在频谱面做更多的操作。
+	
+	由于光斑在频谱面上的位置$\sin \theta=f \lambda$与光波波长$\lambda$有关，于是可以通过改变不同$\lambda$处的透射率实现彩色成像，此即为假彩色编码。
+	
+	
+	
+	
+	\section{阿贝成像与基本空间滤波}
+	
+	\subsection{实验器材}
+	
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{cc}
+			\toprule
+			组件名称 & 包含器件\\ \midrule
+			激光器组件& 激光器、棱镜夹持器、一维平移台、宽滑块、支杆和套筒\\
+			扩束镜组件& 凹透镜（Φ$ 6$, $f$-$10$mm ）、透镜架、滑块、支杆和套筒\\ 
+			准直镜组件& 凸透镜（Φ$40$, $f$-$80$mm ）、透镜架、滑块、支杆和套筒\\ 
+			光栅字组件& 光栅字（Φ$40$, $10$线/mm ）、滑块、支杆和套筒\\ 
+			变换透镜组件& 凸透镜（Φ$76$, $f$-$175$mm ）、镜架、滑块、支杆和套筒\\ 
+			滤波器组件& 滤波器（低通、方向滤波）、干板架、滑块、支杆和套筒\\ 
+			白屏组件& 白屏、干板架、滑块、支杆和套筒\\ \bottomrule
+		\end{tabular}
+		\caption{阿贝成像实验：仪器与用具列表}
+	\end{table}
+	
+	以下为器材总览：
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=7cm]{器材.jpg}
+		\caption{器材总览}
+		\label{fig:instrument}
+	\end{figure}
+	
+	\subsection{光路调节}
+	依照讲义上的图片，搭建光路即可。
+	
+	注意在实验前需要先进行准直，即保证从透镜射出的光线呈一圆斑，且前后移动光屏，圆斑的大小不变，这一步骤可以保证之后的图像清晰且不会出现各向异性(仅有部分像出现现象)的情况。
+	
+	
+	
+	\subsection{观察"光"字}
+	
+	\subsubsection{无滤波}
+
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{无滤波 光字.jpg}  % Set height to 4cm, maintain aspect ratio
+			\caption{无滤波 “光”“字}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{无滤波 光字 频谱面.jpg}  % Set height to 4cm, maintain aspect ratio
+			\caption{无滤波 “光”字 频谱面}
+		\end{subfigure}
+		\caption{无滤波时的“光”字}
+		\label{fig:无滤波_光字}
+	\end{figure}
+	
+	放大后可以观察到“光”字中的点状结构。
+	
+	\subsubsection{竖向滤波}
+	
+	在频谱面上加上竖向的滤波片。
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{竖.jpg}  % Set height to 4cm, maintain aspect ratio
+			\caption{竖向滤波 “光”字}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{竖频谱面.jpg}  % Set height to 4cm, maintain aspect ratio
+			\caption{竖向滤波 “光”字 频谱面}
+		\end{subfigure}
+		\caption{竖向滤波时的“光”字}
+		\label{fig:竖向滤波_光字}
+	\end{figure}
+	放大后可以观察到“光”字中具有的横向条纹。
+	
+	\subsubsection{横向滤波}
+	
+	在频谱面上加上横向的滤波片。
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{横.jpg}  % Set height to 4cm, maintain aspect ratio
+			\caption{横向滤波 “光”字}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{横频谱面.jpg}  % Set height to 4cm, maintain aspect ratio
+			\caption{横向滤波 “光”字 频谱面}
+		\end{subfigure}
+		\caption{横向滤波时的“光”字}
+		\label{fig:横向滤波_光字}
+	\end{figure}
+	放大后可以观察到“光”字中具有的纵向条纹。
+	
+	\subsubsection{45°滤波}
+	
+	在频谱面上加上45°的滤波片。
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{45 屏.jpg}  % Set height to 4cm, maintain aspect ratio
+			\caption{45°滤波 “光”字}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{45 频谱面.jpg}  % Set height to 4cm, maintain aspect ratio
+			\caption{45°滤波 “光”字 频谱面}
+		\end{subfigure}
+		\caption{45°滤波时的“光”字}
+		\label{fig:45滤波_光字}
+	\end{figure}
+	放大后可以观察到“光”字中具有的与滤波器方向相反的45°条纹。
+	
+	\subsubsection{低通滤波}
+	
+	在频谱面上加上低通的滤波片，所谓低通滤波器，实际上是仅有中间有圆孔的滤波器，此滤波器只允许低频信息通过。
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{孔 像.jpg}  % Set height to 4cm, maintain aspect ratio
+			\caption{低通滤波 “光”字}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{孔 频谱面.jpg}  % Set height to 4cm, maintain aspect ratio
+			\caption{低通滤波 “光”字 频谱面}
+		\end{subfigure}
+		\caption{低通滤波时的“光”字}
+		\label{fig:低通滤波_光字}
+	\end{figure}
+	放大后可以观察到“光”字中几乎没有条纹，这是因为条纹的频率较高，而低通滤波器将它们全部滤去。
+	
+	
+	\section{4F成像系统}
+	
+	\subsection{实验目的}
+	
+	（1）体会和掌握光学4F成像系统的组织和搭建。
+	
+	（2）在前面阿贝成像实验的基础上，
+	进一步体会更为复杂的光学信息处理。
+	
+	\subsection{实验器材}
+	
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{cc}\toprule
+			组件名称 & 包含器件\\  \midrule
+			光源组件& 半导体激光器（$650$nm）、一维平移台、宽滑块、支杆和套筒\\ 
+			准直镜组件& 凹透镜（$\Phi 6$，$f-9.8$mm）、凸透镜（$\Phi 25$，$f-80$mm）、透镜架、滑块、支
+			杆和套筒\\ 
+			调制物组件& 物板、干板架、滑块、支杆和套筒\\
+			变换透镜组件& 凸透镜（$\Phi 40$, $f-175$mm ）、镜架、滑块、支杆和套筒\\ 
+			滤波器组件& 滤波器（低通、方向滤波）、精密平移台、干板夹、滑块、支杆和套筒\\
+			白屏组件& 白屏、干板架、滑块、支杆和套筒\\ 
+			\bottomrule
+		\end{tabular}
+		\caption{4F成像系统：实验仪器与用具列表}
+	\end{table}
+	
+	\subsection{光路调节}
+	依照讲义指导进行调节即可，调节后的仪器如图\ref{fig:4f}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=5cm]{4f光具组.jpg}
+		\caption{4F光具组仪器图}
+		\label{fig:4f}
+	\end{figure}
+	
+	\subsection{实验结果}
+	观察“光”字
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=5cm]{4F像.jpg}
+		\caption{正常4F成像系统"光"字}
+		\label{fig:4F像}
+	\end{figure}
+	可以看到，4F成像系统成上下，左右均反转的清晰像，这可以理解为做两次同样的傅里叶正变换(而非一次正变换，一次逆变换)，将多出一负号。
+	
+	在白纸上写上"137"(精细结构常数$\alpha=\frac{1}{137}$)，将其放置在物面处，在屏上可以观察到不甚清晰的"137"倒立像。
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=5cm]{137.jpg}
+		\caption{正常4F成像系统：137}
+		\label{fig:137}
+	\end{figure}
+	
+	若去除第二个透镜，相当于仅作一次傅里叶变换，而屏亦没有放置在频谱面处，故光将继续传播形成一光斑。
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{去掉第二个透镜的光具组.jpg}  % Set height to 4cm, maintain aspect ratio
+			\caption{去掉第二个透镜的光具组}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{去掉第二个透镜的屏幕.jpg}  % Set height to 4cm, maintain aspect ratio
+			\caption{去掉第二个透镜的屏幕}
+		\end{subfigure}
+		\caption{去掉第二个透镜后的4F成像系统}
+		\label{fig:remove_second}
+	\end{figure}
+	如果屏幕放在较远处，可以再次看到相对清晰的像(平行光相当于成像在无穷远处)。
+	
+	
+	\section{假彩色编码}
+	\subsection{实验目的}
+	
+	（1）在基本空间滤波的基础上，
+	进一步体会光栅衍射的色散效果和选频滤波操作，
+	掌握$\theta$调制假彩色编码的选频滤波和色散选区滤波的原理；
+	
+	（2）利用提前预制分区信息的光栅图案，
+	实现该图像的假彩色编码。
+	
+	
+	
+	\subsection{实验器材}
+	
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{cc}
+			\toprule
+			组件名称 & 包含器件\\ \midrule
+			光源组件& 白光LED、一维平移台、宽滑块、支杆和套筒\\ 
+			准直镜组件& 凸透镜（$\Phi 40$，$f-80$mm）、透镜架、滑块、支杆和套筒 \\ 
+			调制物组件& 天安门光栅（$100$线/mm）、干板架、滑块、支杆和套筒\\ 
+			变换透镜组件& 凸透镜（$\Phi 76$，$f-175$mm）、镜架、滑块、支杆和套筒\\ 
+			滤波器组件& 滤波器、干板架、滑块、支杆和套筒\\ 
+			白屏组件& 白屏、干板架、滑块、支杆和套筒\\ 
+			\bottomrule
+		\end{tabular}
+		\caption{实验仪器与用具列表}
+	\end{table}
+	
+	\subsection{实验结果}
+	\subsubsection{无滤波器}
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{无滤波器光路.jpg}  % Set height to 4cm, maintain aspect ratio
+			\caption{光路}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{无滤波器天安门.jpg}  % Set height to 4cm, maintain aspect ratio
+			\caption{天安门}
+		\end{subfigure}
+		\caption{无滤波器}
+		\label{fig:无滤波器}
+	\end{figure}
+	可以观察到屏幕上呈现出无彩色，倒立，放大的像。
+	
+	\subsubsection{$\theta$调制滤波器}
+	将$\theta$调制滤波器置于频谱面上，颜色一一对准，得图\ref{fig:调制滤波器}
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.3\textwidth}
+			\includegraphics[width=\linewidth]{调制滤波器光路.jpg}
+			\caption{光路}
+		\end{subfigure}
+		\begin{subfigure}{0.3\textwidth}
+			\includegraphics[width=\linewidth]{调制滤波器频谱图.jpg}
+			\caption{频谱图}
+		\end{subfigure}
+		\begin{subfigure}{0.3\textwidth}
+			\includegraphics[width=\linewidth]{调制滤波器天安门.jpg}
+			\caption{天安门}
+		\end{subfigure}
+		\caption{调制滤波器}
+		\label{fig:调制滤波器}
+	\end{figure}
+	
+	\subsubsection{自制滤波器}
+	用一张白纸，将白纸部分位置扣洞，使得光线通过，其余位置挡光。将其置于频谱面上，选择特定的颜色透过，即可得到彩色图像。
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.3\textwidth}
+			\includegraphics[width=\linewidth]{天安门自制滤波器光路1.jpg}
+			\caption{光路}
+		\end{subfigure}
+		\begin{subfigure}{0.3\textwidth}
+			\includegraphics[width=\linewidth]{天安门自制滤波器1.jpg}
+			\caption{频谱图}
+		\end{subfigure}
+		\begin{subfigure}{0.3\textwidth}
+			\includegraphics[width=\linewidth]{自制效果图.jpg}
+			\caption{天安门}
+		\end{subfigure}
+		\caption{自制滤波器}
+		\label{fig:自制滤波器1}
+	\end{figure}
+	
+	进一步的，尝试使天安门的门洞亮起来，我将白纸中间零级斑处开了一个小洞，这样可以使整体叠加上白光，进而使门洞亮起来。
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.3\textwidth}
+			\includegraphics[width=\linewidth]{天安门自制滤波器光路2.jpg}
+			\caption{光路}
+		\end{subfigure}
+		\begin{subfigure}{0.3\textwidth}
+			\includegraphics[width=\linewidth]{天安门自制滤波器2.jpg}
+			\caption{频谱图}
+		\end{subfigure}
+		\begin{subfigure}{0.3\textwidth}
+			\includegraphics[width=\linewidth]{窗户亮起来.jpg}
+			\caption{天安门}
+		\end{subfigure}
+		\caption{使窗户亮起来的自制滤波器}
+		\label{fig:自制滤波器2}
+	\end{figure}
+	
+	
+	\section{光栅，夫琅禾费衍射实验与光谱仪测量光谱}
+	
+	\subsection{实验目的}
+	
+	\begin{enumerate}
+		\item 将透射光栅放入光路中，根据衍射光斑图样，代入光栅方程计算光栅常数 d；
+		\item 通过实验测量与计算，熟悉光栅的结构与衍射原理，熟悉光学测量的操作；
+		\item 使用手持式光栅光谱仪和 SpectraSmart 软件测量激光或白光的光栅衍射光的光谱和波长，判断与经验值是否一致；
+		\item 通过实验，了解LED灯的光谱，初步了解光栅光谱仪与相应软件的测量方法。
+	\end{enumerate}
+	
+	
+	\subsection{实验器材}
+	
+	待测量光栅、衍射分划板、半导体激光器、平移台、白屏、干板架、宽滑块、滑块、支杆和套筒；光栅光谱仪测光谱实验器材： OTO SE1040 便携式光栅光谱仪（测量波长范围 $350 \ \mathrm{nm} \ \sim \ 1020 \ \mathrm{nm}$），另外还有白光LED、一维平移台、白屏、干板架、宽滑块、滑块、支杆和套筒等。
+	
+	\subsection{实验结果}
+	
+	\subsubsection{测量光栅常数}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=5cm]{光栅常数.jpg}
+		\caption{光栅常数测量图片}
+		\label{fig:光栅常数}
+	\end{figure}
+	很遗憾，此实验我并没有记录数据，只留下测量时的一张照片：图\ref{fig:光栅常数}。但是在课堂上我已经计算出结果并与左老师核对完成。
+	
+	\subsubsection{夫琅禾费衍射}
+	利用两块分划板进行测定，分划板参数可见讲义。
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{1 孔1.jpg}
+			\caption{孔1}
+		\end{subfigure}
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{1 孔2.jpg}
+			\caption{孔2}
+		\end{subfigure}
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{1 孔3.jpg}
+			\caption{孔3}
+		\end{subfigure}
+		\caption{分划板1：孔}
+		\label{fig:1孔}
+	\end{figure}
+	可以观察到清晰的圆环条纹。
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{1 点1.jpg}
+			\caption{点1}
+		\end{subfigure}
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{1 点2.jpg}
+			\caption{点2}
+		\end{subfigure}
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{1 点3.jpg}
+			\caption{点3}
+		\end{subfigure}
+		\caption{分划板1：点}
+		\label{fig:1点}
+	\end{figure}
+	由于孔和点为互补屏，因此其二者的衍射图象应当除中心亮度外一致。但是，在点3处，由于器材上指纹过多，难以观察到清晰的干涉条纹。
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{1 缝1.jpg}
+			\caption{缝1}
+		\end{subfigure}
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{1 缝2.jpg}
+			\caption{缝2}
+		\end{subfigure}
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{1 缝3.jpg}
+			\caption{缝3}
+		\end{subfigure}
+		\caption{分划板1：缝}
+		\label{fig:1缝}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{1 丝1.jpg}
+			\caption{丝1}
+		\end{subfigure}
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{1 丝2.jpg}
+			\caption{丝2}
+		\end{subfigure}
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{1 丝3.jpg}
+			\caption{丝3}
+		\end{subfigure}
+		\caption{分划板1：丝}
+		\label{fig:1丝}
+	\end{figure}
+	这两组图片可以清晰的观察到互补屏衍射图像的一致，均可以观察到横向条纹。
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{2 gs1.jpg}  % Set height to 4cm, maintain aspect ratio
+			\caption{光栅1}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{2 gs2.jpg}  % Set height to 4cm, maintain aspect ratio
+			\caption{光栅2}
+		\end{subfigure}
+		\caption{分划板2：光栅}
+		\label{fig:2光栅}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{2 df1.jpg}  % Set height to 4cm, maintain aspect ratio
+			\caption{单缝1}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{2 df2.jpg}  % Set height to 4cm, maintain aspect ratio
+			\caption{单缝2}
+		\end{subfigure}
+		\caption{分划板2：单缝}
+		\label{fig:2单缝}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{2 sk1.jpg}
+			\caption{双孔1}
+		\end{subfigure}
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{2 sk2.jpg}
+			\caption{双孔2}
+		\end{subfigure}
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{2 sk3.jpg}
+			\caption{双孔3}
+		\end{subfigure}
+		\caption{分划板2：双孔}
+		\label{fig:2双孔}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{2 双缝1.jpg}
+			\caption{双缝1}
+		\end{subfigure}
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{2 双缝2.jpg}
+			\caption{双缝2}
+		\end{subfigure}
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{2 双缝3.jpg}
+			\caption{双缝3}
+		\end{subfigure}
+		\caption{分划板2：双缝}
+		\label{fig:2双缝}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=5cm]{2 jk.jpg}
+		\caption{分划板2：矩孔}
+		\label{fig:2矩孔}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=5cm]{2 单丝1.jpg}
+		\caption{分划板2：单丝}
+		\label{fig:2单丝}
+	\end{figure}
+	
+	\subsubsection{光栅光谱仪}
+	利用手持式光栅光谱仪测量白光，蓝光以及红光的最大值与半高全宽。
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{白光LED最大值.jpg}
+			\caption{最大值}
+		\end{subfigure}
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{白光LED左.jpg}
+			\caption{半高左}
+		\end{subfigure}
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{白光LED右.jpg}
+			\caption{半高右}
+		\end{subfigure}
+		\caption{白光LED的最大值与半高全宽}
+		\label{fig:白}
+	\end{figure}
+	测得白光波长的最大值位于$\lambda=554.45\ \mathrm{nm}$，半高全宽为$\Delta \lambda=70.79\ \mathrm{nm}$
+	
+	将$\theta$调制片的蓝色和红色部分部分贴于白光LED上，得蓝光与红光
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{蓝光最大值.jpg}
+			\caption{最大值}
+		\end{subfigure}
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{蓝光左.jpg}
+			\caption{半高左}
+		\end{subfigure}
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{蓝光右.jpg}
+			\caption{半高右}
+		\end{subfigure}
+		\caption{蓝光的最大值与半高全宽}
+		\label{fig:蓝}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{红光最大值.jpg}
+			\caption{最大值}
+		\end{subfigure}
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{红光左.jpg}
+			\caption{半高左}
+		\end{subfigure}
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth]{红光右.jpg}
+			\caption{半高右}
+		\end{subfigure}
+		\caption{红光的最大值与半高全宽}
+		\label{fig:红}
+	\end{figure}
+	
+	由于当时的摆放问题，我和我的搭档将探测器放的太靠近光源，导致实际上蓝光和红光的数据已经失真，在蓝光和红光图片中的数据已经不准确，仅可以用作数量级参考。
+	
+	\section{思考题}
+	\subsection{阿贝成像中，当“缝”与光栅方向夹角 45 度放置滤波时，会有何效果？}
+	在频谱面上加上45°的滤波片。
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{45 屏.jpg}  % Set height to 4cm, maintain aspect ratio
+			\caption{45°滤波 “光”字}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{45 频谱面.jpg}  % Set height to 4cm, maintain aspect ratio
+			\caption{45°滤波 “光”字 频谱面}
+		\end{subfigure}
+		\caption{45°滤波时的“光”字}
+		\label{fig:45滤波_光字}
+	\end{figure}
+	放大后可以观察到“光”字中具有的与滤波器方向相反的45°条纹。
+	
+	\subsection{前面实验中，我们使用低通滤波（仅让 0 级斑通过）实现了光栅格子信息的消除；如何做个高通滤波的例子？应该如何实现和它的效果是什么？}
+	高通滤波器可以看作只将频谱面中心处的光遮住，使其他光通过。
+	
+	它可以使图像亮度降低，图像中的条纹更加清晰。
+	
+	\subsection{观察 4F 系统成像与阿贝成像时单透镜成像的区别是什么？}
+	阿贝成像系统相当于一个将4F系统的第二个透镜去除，再将白屏移至无穷远的系统。二者在单透镜成像时的区别在于阿贝成像的白屏在远处，而4F系统的白屏在近处，因此阿贝成像系统的像更加清晰。
+	
+	\subsection{假彩色编码实验中使用的天安门城楼光栅本身中的城楼的窗户和门洞都是透光的，但是为什么经过所提供的假着色滤波处理后所成的像中这些窗户和门洞是黑色的？有方法验证你的解释吗？}
+	因为它们透光，可以视为空间频率为0，因此在频谱面上的像成在原点处，所提供的假着色滤波片将原点处挡光，因此门洞是黑的。
+	
+	当采用自制的滤波片时，将原点处扣开，的确观察到门洞亮起来了，因此解释是合理的。
+	
+	\subsection{从夫琅和费衍射实验得到哪些规律？}
+	\begin{itemize}
+		\item 互补屏的衍射图样除中心点外相同。
+		\item 障碍物（屏或丝）或小孔（孔或缝）的尺度越小，衍射现象越明显。
+	\end{itemize}
+	
+	\section{实验感想}
+	这个实验我收获很多，在做这个实验时，我的光学课程也恰好学习到傅里叶光学，因此我对它的理论框架还是很熟悉的，实验操作起来也比较“得心应手”。尤其是当利用自己制作的滤波器产生彩色天安门时，我感到非常兴奋。这是一次非常美妙的体验。
+	
+	
+	
+	
+	
+	
+\end{document}
