@@ -1,0 +1,636 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper]{geometry}
+\geometry{left=2.0cm,right=2.0cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage{ctex} % 支持中文的LaTeX宏包
+\usepackage{amsmath,amsfonts,graphicx,amssymb,bm,amsthm,mathrsfs,mathtools,breqn} % 数学公式和符号的宏包集合
+\usepackage{algorithm,algorithmicx} % 算法和伪代码的宏包
+\usepackage[noend]{algpseudocode} % 算法和伪代码的宏包
+\usepackage{fancyhdr} % 自定义页眉页脚的宏包
+\usepackage[framemethod=TikZ]{mdframed} % 创建带边框的框架的宏包
+\usepackage{fontspec} % 字体设置的宏包
+\setmainfont{Times New Roman} % Set the main font to Times New Roman
+\usepackage{adjustbox} % 调整盒子大小的宏包
+\usepackage{fontsize} % 设置字体大小的宏包
+\usepackage{tikz,xcolor} % 绘制图形和使用颜色的宏包
+\usepackage{multicol} % 多栏排版的宏包
+\usepackage{multirow} % 表格中合并单元格的宏包
+\usepackage{pdfpages} % 插入PDF文件的宏包
+\RequirePackage{listings} % 在文档中插入源代码的宏包
+\RequirePackage{xcolor} % 定义和使用颜色的宏包
+\usepackage{wrapfig} % 文字绕排图片的宏包
+\usepackage{bigstrut,multirow,rotating} % 支持在表格中使用特殊命令的宏包
+\usepackage{booktabs} % 创建美观的表格的宏包
+\usepackage{circuitikz} % 绘制电路图的宏包
+\usepackage{float} % Add this in the preamble
+\usepackage{array}
+\usepackage{subcaption}
+\usepackage{physics}
+\usepackage[dvipsnames]{xcolor}
+
+\newcommand{\unit}[1]{\,\mathrm{#1}}
+\newcommand{\cunit}[1]{\,#1} % \, represents a thin space
+\newcommand{\mm}{\unit{mm}}
+\newcommand{\Hz}{\unit{Hz}}
+\newcommand{\m}{\unit{m}}
+\newcommand{\g}{\unit{g}}
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{
+	frame=tb,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	framerule=1pt,
+	rulecolor=\color{gray!35},
+	backgroundcolor=\color{gray!5},
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3,
+}
+
+% 轻松引用, 可以用\cref{}指令直接引用, 自动加前缀. 
+% 例: 图片label为fig:1
+% \cref{fig:1} => Figure.1
+% \ref{fig:1}  => 1
+\usepackage[capitalize]{cleveref}
+% \crefname{section}{Sec.}{Secs.}
+\Crefname{section}{Section}{Sections}
+\Crefname{table}{Table}{Tables}
+\crefname{table}{Table.}{Tabs.}
+
+\setmainfont{Times New Roman}
+
+
+
+
+\renewcommand{\emph}[1]{\begin{kaishu}#1\end{kaishu}}
+
+%改这里可以修改实验报告表头的信息
+\newcommand{\experiName}{微波衍射干涉实验}
+\newcommand{\supervisor}{刘荣鹃}
+\newcommand{\name}{徐博涵}
+\newcommand{\studentNum}{2023K8009908004}
+\newcommand{\class}{1}
+\newcommand{\group}{04}
+\newcommand{\seat}{6}
+\newcommand{\dateYear}{2024}
+\newcommand{\dateMonth}{11}
+\newcommand{\dateDay}{25}
+\newcommand{\room}{715/717}
+\newcommand{\others}{$\square$}
+%% 如果是调课、补课, 改为: $\square$\hspace{-1em}$\surd$
+%% 否则, 请用: $\square$
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\chapter}[2]{\begin{center}\bf\Large{第\,#1\,部分\quad #2}\end{center}}
+
+\begin{document}
+	
+	%若需在页眉部分加入内容, 可以在这里输入
+	% \pagestyle{fancy}
+	% \lhead{\kaishu 测试}
+	% \chead{}
+	% \rhead{}
+	
+	\begin{center}
+		\LARGE \bf 《\, 基\, 础\, 物\, 理\, 实\, 验\, 》\, 实\, 验\, 报\, 告
+	\end{center}
+	
+	\begin{center}
+		\noindent \emph{实验名称}\underline{\makebox[25em][c]{\experiName}}
+		\emph{指导教师}\underline{\makebox[8em][c]{\supervisor}}\\
+		\emph{姓名}\underline{\makebox[6em][c]{\name}} 
+		% 如果名字比较长, 可以修改box的长度"6em"
+		\emph{学号}\underline{\makebox[10em][c]{\studentNum}}
+		\emph{分班分组及座号} \underline{\makebox[5em][c]{\class \ -\ \group \ -\ \seat }\emph{号}} （\emph{例}:\, 1\,-\,04\,-\,5\emph{号}）\\
+		\emph{实验日期} \underline{\makebox[3em][c]{\dateYear}}\emph{年}
+		\underline{\makebox[2em][c]{\dateMonth}}\emph{月}
+		\underline{\makebox[2em][c]{\dateDay}}\emph{日}
+		\emph{实验地点}\underline{{\makebox[4em][c]\room}}
+		\emph{调课/补课} \underline{\makebox[3em][c]{\others\ 是}}
+		\emph{成绩评定} \underline{\hspace{5em}}
+		{\noindent}
+		\rule[8pt]{17cm}{0.2em}
+	\end{center}
+	
+	
+	
+	\section{实验目的}
+	\begin{enumerate}
+		\item 了解与学习微波产生的基本原理以及传播和接收等基本特性
+		\item 观测微波衍射、干涉等实验现象
+		\item 观测模拟晶体的微波布拉格衍射现象
+		\item 通过迈克耳逊实验测量微波波长
+	\end{enumerate}
+	
+	
+	
+	\section{实验仪器}
+	DHMS-1A型微波光学综合实验仪一套，包括：X波段微波信号源、微波发生器、发射喇叭、接收喇叭、微波检波器、检波信号数字显示器、可旋转载物平台和支架，以及实验用附件（反射板、分束板、单缝板、双缝板（缝间距为$5$cm）、晶体模型（晶格常数为$4$cm） 、读数机构等）。
+	
+	
+	
+	\section{实验原理}
+	
+	\subsection{微波的物理特性}
+	微波是波长在1mm-1m间的电磁波，由于微波的波长小于可见光波和X射线，因此微波的波动性质在日常生活中物体的尺寸量级就可以展现出来。利用这个特性，就可以用微波和尺寸较大的物体来验证可见光波和X射线的性质，例如本实验中的双缝干涉和布拉格衍射。
+	
+	当微波与物质作用时，将发生三种情况：
+	\begin{enumerate}
+		\item 与金属作用，被反射回来，因此在本实验中利用铝板当作反射镜
+		\item 与介质作用，将穿透介质，但也有一部分被反射，本实验中利用玻璃作为半透半反镜
+		\item 与某些极性分子作用(例如水分子和脂肪)并被吸收：极性分子在微波中振动，总是尝试与微波中电场方向一致，因此导致物质温度的升高(微波炉原理)和微波的吸收
+	\end{enumerate}
+	
+	\subsection{微波的双缝干涉实验}
+	平面波垂直入射到一金属板(\textbf{这是微波的特性，若使用介质板将会有微波穿过})的两条狭缝上，狭缝成为次级波源，产生两列可以干涉（频率相同、振动方向相同、振幅周期和相位关系稳定）的相干波，产生干涉现象，且为减少单缝衍射的干扰，令双缝的缝宽$a$接近波长$\lambda$，并扩大两缝间隔$b$小。设$\theta$是角度观测点和中心$0$
+	级亮纹对双峰中心的夹角，则干涉加强的角度和干涉减弱的角度分别为：
+	\begin{align*}
+		&\theta = \sin^{-1}{\left( \frac{k\cdot\lambda}{a+b} \right)} &k=0,1,2,3\,\cdots \text{ （干涉加强）} \\
+		&\theta = \sin^{-1}{\left( \frac{2k+1}{2}\cdot\frac{\lambda}{a+b} \right)} &k=0,1,2,3\,\cdots \text{ （干涉减弱）} \\
+	\end{align*}
+	
+	\subsection{微波的迈克尔逊干涉仪干涉}
+	迈克尔逊干涉原理示意图间图\ref{fig:迈克尔逊干涉原理示意图}，一束微波经发射喇叭发射后打在半透板(玻璃板)上发生半透半反，在经过两个反射板(铝板)的反射后汇聚在接收喇叭处并发生干涉，前后移动接受喇叭，即可观察到振幅的变化。
+	
+	在这个实验中，有一下几点与光学迈克尔逊干涉不同：
+	\begin{enumerate}
+		\item 光学迈克尔逊干涉的接收装置为一个接收屏，可以观察到完整的环状干涉条纹。微波实验则使用接收喇叭放置在环心处，仅观察环心处的明暗
+		\item \textbf{光学迈克尔逊干涉还有一块补偿板，老师在上课中提到这是为了补偿半透半反镜带来的额外相位差，但是即便带来了相位差减去2$\pi$的整数倍对结果也不会有影响}
+		
+		\textbf{我认为这是因为光学实验中光源的单色性无法得到满足，而不同波长的光在介质中的折射率不同，因此会带来不同的相位差，于是两条光路中不同波长的光在接收屏上同一点的相位差不同。加上补偿板后两个光路不同波长的光的光在介质中增加的相位差仍然不相同，但由于两条光路都相加同样的相位差，结果抵消，实际表现为两条光路中不同波长的光在接收屏上同一点的相位差相同}
+		
+		对于微波实验，其单色性较好，因此不用担心这个问题
+	\end{enumerate}
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[height=3.5cm]{迈克尔逊干涉原理示意图.jpg}
+		\caption{迈克尔逊干涉原理示意图}
+		\label{fig:迈克尔逊干涉原理示意图}
+	\end{figure}
+	
+	\subsection{微波的布拉格衍射}
+	当研究晶体结构时，我们一般利用X射线在晶体中的布拉格衍射，这是由于X射线的波长和真实晶体的尺寸相近；在本实验中，我们利用微波代替X射线，利用晶体模型（晶格常数为$4$cm）来代替真实晶体
+	
+	组成晶体的原子可以看成分别作处在一系列相互平行、间距一定的平面族上，这些平面称为晶面对于不同的晶面。布拉格衍射是由于X射线在晶体中不同晶面中的衍射叠加产生的，我们可以用晶格指数$(h\ k\ l)$表示这些面，其中$h,k,l$分别为镜面在$x,y,z$轴上截距倒数，且我们通常取三者化为最小整数的结果。一般而言，晶面指数为$(h\ k\ l)$的晶面族，相邻的两个晶面间距为：
+	\[
+	d=\frac{a}{\sqrt{h^2+k^2+l^2}}
+	\]
+	
+	晶面间的衍射遵循布拉格衍射定律，	记入射角为$\varphi$，从间隔为$d$的相邻两个晶面反射的两束波的衍射加强点为：
+	\[
+	2d\cos{\varphi} = k{\lambda}\quad k = 1,2,3,\,\cdots
+	\]
+	
+	
+	
+	\section{实验内容}
+	
+	
+	\subsection{仪器初调}
+	先调节发射喇叭上的频率旋钮，使得发射频率为9.4GHz，需要注意的是，每台仪器的选频表格并不相同，需要依照表格调节
+	
+	我做实验时仪器的频率表格和最终调节表盘可见图\ref{fig:frequency set}
+	
+	\begin{figure}[htbp]
+		\centering
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=4cm]{频率表.jpg}  % Set height to 4cm, maintain aspect ratio
+			\caption{频率表格}
+			\label{fig:frequency table}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=4cm]{频率表盘.jpg}  % Set height to 4cm, maintain aspect ratio
+			\caption{9.4GHz时的频率表盘}
+			\label{fig:frequency ratio}
+		\end{subfigure}
+		\caption{设置发射频率}
+		\label{fig:frequency set}
+	\end{figure}
+	
+		
+	\subsection{仪器对准}
+	在实验开始前，需要确定发射喇叭和接收喇叭在同一条直线上，需要进行的操作有：
+	\begin{enumerate}
+		\item 将接收喇叭在竖直方向上调平，使得转角处刻线对准螺丝
+		\item 利用玻璃板做大致校准，使发射喇叭对准0\textdegree 位置
+		\item 下面调节接收喇叭在水平面内的旋转角，将接收喇叭在$\pm 20$\textdegree 间调节，每次使调节旋转角使得电压为上两个值的平均值，最终需要使$\pm 20$\textdegree 间的电压差值小于0.2mV
+	\end{enumerate}
+	
+	\textcolor{red}{一旦对准结束，就应当将螺丝拧紧，不可再转动}
+	
+	
+	\subsection{微波双缝干涉实验}
+	
+	调整双缝干涉板的缝宽为$3.5$cm，缝中间的间距为$5$cm（即缝的最内侧尽头之间的距离，也是能达到的最短距离）。将双缝安置在支座上，使双缝板平面与载物圆台上$90$°指示线一致，并让微波的发生喇叭、接收喇叭夹角为$180$°。找到$0$线附近的最大值，并在$0$线的两侧每改变$2$°读取一次读数，近似绘制曲线；在曲线对应的一级极大、零级极小、一级极小处开展间隔$1$°的精细扫描，并根据测量角度$\theta$，缝宽$a$和缝间距$b$，计算微波波长$\lambda$和其百分误差。采取了两轮从$-50$°到$50$°的测量：第一轮是粗测，测量步长为$2$°；第二轮在找好合适区间后，按照步长为$1$°测量
+	
+	几个注意点：
+	\begin{itemize}
+		\item 按照单方向测量，而不是在0°两侧来回跳跃
+		\item 由于这个实验开始前双缝仅是粗调对准，因此可能会出现主极大有偏离的情况，此时只要保证整个数据偏离情况一致就行，不需要重测
+	\end{itemize}
+	
+	
+	\subsection{微波的迈克尔逊干涉实验}
+	
+	在载物圆台$45$°刻度线处放置一玻璃板，并使发射喇叭、接收喇叭的支撑臂对准$0$°、$90$°刻度线。使用两个支柱安装反射板，使其垂直于光路，并使可移反射板移动至0cm刻度线处（移动至最接近玻璃板处），即可开始测量。
+	\begin{itemize}
+		\item 测量前确认旋转把手的方向，一边看着接收器上示数，一边旋转把手，测出光强抵达最低点的位置(最高点处不好确认)
+		\item 如果光强的最小值较大，可能是发射喇叭的对准问题，此时可以使接收喇叭在$90\pm 2°$处测量数据，并确认电压差值小于0.2mV
+		\item 如果最低点“过小”（即有非常长一段距离示数均相同），可以尝试调大微波强度（保证实验中测量零点时，发出微波强度相同，即不要在测量途中调整），使这段距离变短
+		\item 不需要使用旋钮上的千分尺读数，估读至$0.1$mm即可
+	\end{itemize}
+
+
+	\subsection{微波布拉格衍射实验}
+	
+	首先将模拟晶体安装在载物圆台上。分为$(1\,0\,0)$晶面和$(1\,1\,0)$晶面的两种测量
+	
+	$(1\,0\,0)$晶面的法线对应0°，因此当待测角度为$\theta$时，需要调节发射喇叭对应-$\theta$，接收喇叭对应+$\theta$。实际测量中粗测选取$\theta$的范围为30°-80°，步长2°；细扫选取极大值处，步长1°
+	
+	$(1\,1\,0)$晶面的法线对应45°，因此当待测角度为$\theta$时，需要调节发射喇叭对应45-$\theta$，接收喇叭对应45+$\theta$。实际测量中粗测选取$\theta$的范围为30°-70°，步长2°；细扫选取极大值处，步长1°
+	
+	在$(1\,0\,0)$晶面最大值处，若一开始发射喇叭功率选择不当，可能会出现超出量程的情况，此时无需重做，但是需要在细扫时减小功率
+	
+	
+	
+	\section{实验结果与数据处理}
+	
+	
+	\subsection{仪器对准确认}
+
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|l|l|l|l|}
+			\hline
+			\multicolumn{1}{|c|}{角度(°)} & 0    & 20  & -20 \\ \hline
+			电压(mV)                      & 14.4 & 9.5 & 9.7 \\ \hline
+		\end{tabular}
+		\caption{仪器对准确认}
+		\label{tab: alignment}
+	\end{table}
+	
+	
+	\subsection{微波双缝干涉实验}
+	
+	\subsubsection{双缝干涉粗扫}
+	
+	设定双缝干涉板的缝宽为$3.5$cm，缝中间的间距为$5$cm（即缝的最内侧尽头之间的距离，也是能达到的最短距离），也即a=3.5cm, d=8.5cm，表格见表\ref{tab:double slit general}，拟合图像见图\ref{fig:double slit general}
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+			\hline
+			$\theta$ (°) & 0 & 2 & 4 & 6 & 8 & 10 & 12 & 14 & 16 \\ \hline
+			$U_{\theta+}$ (mV) & 22.0 & 23.5 & 14.4 & 12.0 & 3.7 & 0.2 & 0.0 & 0.1 & 0.8 \\ \hline
+			$U_{\theta-}$ (mV) & 22.0 & 14.0 & 3.2 & 0.3 & 0.0 & 0.3 & 1.4 & 4.4 & 8.7 \\ \hline
+			$\theta$ (°) & 18 & 20 & 22 & 24 & 26 & 28 & 30 & 32 & 34 \\ \hline
+			$U_{\theta+}$ (mV) & 3.0 & 6.2 & 9.8 & 10.5 & 8.0 & 3.2 & 1.0 & 0.3 & 0.2 \\ \hline
+			$U_{\theta-}$ (mV) & 13.1 & 13.9 & 10.0 & 4.1 & 0.9 & 0.4 & 0.4 & 0.7 & 1.4 \\ \hline
+			$\theta$ (°) & 36 & 38 & 40 & 42 & 44 & 46 & 48 & 50 &  \\ \hline
+			$U_{\theta+}$ (mV) & 0.3 & 0.8 & 1.2 & 1.0 & 0.4 & 0.5 & 1.7 & 1.8 &  \\ \hline
+			$U_{\theta-}$ (mV) & 2.0 & 1.1 & 0.4 & 1.0 & 3.9 & 4.3 & 1.6 & 0.1 &  \\ \hline
+		\end{tabular}
+		\caption{双缝干涉粗测}
+		\label{tab:double slit general}
+	\end{table}
+		
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[height=4cm]{双缝干涉粗测.png}
+		\caption{双缝干涉粗测}
+		\label{fig:double slit general}
+	\end{figure}
+	
+
+	\subsubsection{双缝干涉正负一级小细扫}
+	
+	正一级小细扫数据见表\ref{tab:正一级小细扫}，拟合图像见图\ref{fig:正一级小细扫}；通过拟合得出波长$\lambda$=5.67cm
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+			\hline
+			$\theta$ (°) & 30 & 31 & 32 & 33 & 34 & 35 & 36 & 37 & 38 \\ \hline
+			$U_{\theta+}$ (mV) & 16.1 & 7.0 & 3.2 & 2.3 & 1.5 & 2.0 & 3.8 & 7.3 & 12.1 \\ \hline
+		\end{tabular}
+		\caption{正一级小细扫}
+		\label{tab:正一级小细扫}
+	\end{table}
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[height=3.5cm]{正一级小细扫.png}
+		\caption{正一级小细扫}
+		\label{fig:正一级小细扫}
+	\end{figure}
+	
+	负一级小细扫数据见表\ref{tab:负一级小细扫}，拟合图像见图\ref{fig:负一级小细扫}；通过拟合得出波长$\lambda$=16.64cm
+				
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+			\hline
+			$\theta$ (°) & 24 & 25 & 26 & 27 & 28 & 29 & 30 & 31 & 32 \\ \hline
+			$U_{\theta-}$ (mV) & 60.1 & 32.4 & 17.6 & 9.8 & 6.5 & 15.0 & 6.3 & 6.9 & 11.4 \\ \hline
+		\end{tabular}
+		\caption{负一级小细扫}
+		\label{tab:负一级小细扫}
+	\end{table}
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[height=3.5cm]{负一级小细扫.png}
+		\caption{负一级小细扫}
+		\label{fig:负一级小细扫}
+	\end{figure}
+	
+	
+	\subsubsection{双缝干涉正负一级大细扫}
+	
+	正一级大细扫数据见表\ref{tab:正一级大细扫}，拟合图像见图\ref{fig:正一级大细扫}；通过拟合得出波长$\lambda$=2.68cm
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+			\hline
+			$\theta$ (°) & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\ \hline
+			$U_{\theta+}$ (mV) & 76.6 & 90.3 & 102.2 & 112.6 & 114.3 & 105.5 & 92.5 & 77.1 & 55.3 \\ \hline
+		\end{tabular}
+		\caption{正一级大细扫}
+		\label{tab:正一级大细扫}
+	\end{table}
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[height=3.5cm]{正一级大细扫.png}
+		\caption{正一级大细扫}
+		\label{fig:正一级大细扫}
+	\end{figure}
+	
+	负一级大细扫数据见表\ref{tab:负一级大细扫}，拟合图像见图\ref{fig:负一级大细扫}；通过拟合得出波长$\lambda$=3.00cm
+	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+			\hline
+			$\theta$ (°) & 16 & 17 & 18 & 19 & 20 & 21 & 22 & 23 & 24 \\ \hline
+			$U_{\theta-}$ (mV) & 98.4 & 109.0 & 119.8 & 124.5 & 124.3 & 118.6 & 107.5 & 86.7 & 64.3 \\ \hline
+		\end{tabular}
+		\caption{负一级大细扫}
+		\label{tab:负一级大细扫}
+	\end{table}
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[height=3.5cm]{负一级大细扫.png}
+		\caption{负一级大细扫}
+		\label{fig:负一级大细扫}
+	\end{figure}
+	
+	
+	\subsubsection{双缝干涉正负零级小细扫}
+	
+	正零级小细扫数据见表\ref{tab:正零级小细扫}，拟合图像见图\ref{fig:正零级小细扫}；通过拟合得出波长$\lambda$=3.46m
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+			\hline
+			$\theta$ (°) & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\ \hline
+			$U_{\theta+}$ (mV) & 52.4 & 19.1 & 3.5 & 0.4 & 0.0 & 0.0 & 0.5 & 4.3 & 13.3 \\ \hline
+		\end{tabular}
+		\caption{正零级小细扫}
+		\label{tab:正零级小细扫}
+	\end{table}
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[height=3.5cm]{正零级小细扫.png}
+		\caption{正零级小细扫}
+		\label{fig:正零级小细扫}
+	\end{figure}
+	
+	负零级小细扫数据见表\ref{tab:负零级小细扫}，拟合图像见图\ref{fig:负零级小细扫}；通过拟合得出波长$\lambda$=1.99cm
+	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+			\hline
+			$\theta$ (°) & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\ \hline
+			$U_{\theta-}$ (mV) & 43.4 & 15.7 & 2.8 & 0.7 & 0.6 & 1.4 & 4.2 & 12.1 & 24.0 \\ \hline
+		\end{tabular}
+		\caption{负零级小细扫}
+		\label{tab:负零级小细扫}
+	\end{table}
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[height=3.5cm]{负零级小细扫.png}
+		\caption{负零级小细扫}
+		\label{fig:负零级小细扫}
+	\end{figure}
+	
+	\subsubsection{数据整理}
+	
+	经过计算，可得出多组数据，舍去明显不合理的$\lambda$=16.64cm，计算剩下数据的平均值为估计量\[\hat{\lambda}=\frac{1}{n}\sum \lambda_i=3.36\mathrm{cm}\]
+	
+	
+	
+	\subsection{微波迈克尔逊干涉实验}
+	
+	读数见表\ref{tab: Michelson}
+	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|l|l|l|l|}
+			\hline
+			最小点读数/cm & 0.80 & 2.41 & 3.92 & 5.50 \\ \hline
+		\end{tabular}
+		\caption{迈克尔逊干涉最小点读数}
+		\label{tab: Michelson}
+	\end{table}
+	
+	利用逐差法计算\[\Delta x_1=x_3-x_1=3.12\mathrm{cm} \quad \Delta x_2=x_4-x_2=3.09\mathrm{cm}\]
+	
+	由于光程差$\Delta_L$与移动距离$s$之间满足关系\[\Delta_L=2s\]
+	
+	因此$\Delta x_1$和$\Delta x_2$即为波长的估计量，取平均，得到\[\hat{\lambda}=\frac{\Delta x_1+\Delta x_2}{2}=3.11\mathrm{cm}\]
+	
+	
+	
+	
+	\subsection{微波布拉格衍射实验}
+	
+	\subsubsection{(1 0 0)晶面}
+	对于(1 0 0)晶面，面间距\(d=4\)cm，粗扫数据见表\ref{tab:100}
+	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+			\hline
+			$\phi_1$ (°) & 30 & 32 & 34 & 36 & 38 & 40 & 42 & 44 & 46 \\ \hline
+			$U$ (mV) & 43.3 & 44.7 & 40.3 & 34.9 & 48.0 & 70.4 & 59.4 & 12.0 & 4.1 \\ \hline
+			$\phi_1$ (°) & 48 & 50 & 52 & 54 & 56 & 58 & 60 & 62 & 64 \\ \hline
+			$U$ (mV) & 50.6 & 91.1 & 51.4 & 10.7 & 33.1 & 37.4 & 77.3 & 148.9 & 127.5 \\ \hline
+			$\phi_1$ (°) & 66 & 68 & 70 & 72 & 74 & 76 & 78 & 80 &  \\ \hline
+			$U$ (mV) & 200 & 200 & 200 & 61.2 & 87.3 & 150.1 & 3.1 & 5.6 &  \\ \hline
+		\end{tabular}
+		\caption{(1 0 0)晶面的布拉格衍射，其中将超过量程的数值记为为200mV}
+		\label{tab:100}
+	\end{table}
+	
+	在最大值68°附近降低功率进行细扫，得到表\ref{tab:100'}，并且可以估计出最大功率对应的角度为69°
+	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+			\hline
+			$\phi_1$ (°) & 64 & 65 & 66 & 67 & 68 & 69 & 70 & 71 & 72 \\ \hline
+			$U$ (mV) & 47.8 & 63.2 & 109.7 & 143.7 & 154.9 & 159.0 & 100.9 & 30.5 & 9.9 \\ \hline
+		\end{tabular}
+		\caption{(1 0 0)晶面的布拉格衍射细扫}
+		\label{tab:100'}
+	\end{table}
+	
+	代入公式\[2d\cos{\varphi} = k{\lambda}\quad k = 1,2,3,\,\cdots\]
+	
+	得到估计量\[\hat{\lambda}=2d\cos \phi=2.87\mathrm{cm}\]
+	
+	
+	\subsubsection{(1 1 0)晶面}
+	对于(1 1 0)晶面，面间距\(d=\frac{4}{\sqrt{2}}=2.83\)cm，粗扫数据见表\ref{tab:110}
+	
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+			\hline
+			$\phi_1$ (°) & 30 & 32 & 34 & 36 & 38 & 40 & 42 & 44 & 46 \\ \hline
+			$U$ (mV) & 0.3 & 0.6 & 0.5 & 1.0 & 0.2 & 0.6 & 0.4 & 0.9 & 5.0 \\ \hline
+			$\phi_1$ (°) & 48 & 50 & 52 & 54 & 56 & 58 & 60 & 62 & 64 \\ \hline
+			$U$ (mV) & 6.8 & 8.5 & 34.7 & 57.5 & 64.8 & 38.7 & 42.4 & 9.3 & 3.0 \\ \hline
+			$\phi_1$ (°) & 66 & 68 & 70 &  &  &  &  &  &  \\ \hline
+			$U$ (mV) & 2.9 & 0.4 & 0.2 &  &  &  &  &  &  \\ \hline
+		\end{tabular}
+		\caption{(1 0 0)晶面的布拉格衍射}
+		\label{tab:110}
+	\end{table}
+	
+	在最大值56°附近降低功率进行细扫，得到表\ref{tab:110'}，并且可以估计出最大功率对应的角度为55°
+	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+			\hline
+			$\phi_1$ (°) & 52 & 53 & 54 & 55 & 56 & 57 & 58 & 59 & 60 \\ \hline
+			$U$ (mV) & 32.4 & 43.2 & 53.1 & 70.5 & 63.4 & 40.1 & 37.9 & 45.8 & 42.8 \\ \hline
+		\end{tabular}
+		\caption{(1 0 0)晶面的布拉格衍射细扫}
+		\label{tab:110'}
+	\end{table}
+	
+	代入公式\[2d\cos{\varphi} = k{\lambda}\quad k = 1,2,3,\,\cdots\]
+	
+	得到估计量\[\hat{\lambda}=2d\cos \phi=3.24\mathrm{cm}\]
+	
+
+
+	\section{实验感想}
+	
+	这次实验我利用微波观察了双缝干涉，迈克尔逊干涉以及布拉格衍射，尤其是布拉格衍射，巧妙的将电磁波长与晶体结构同步放大，使得可以在日常尺寸下观察到布拉格衍射。这次实验还是非常有收获的
+	
+	在实验上我也遇到了一些问题，例如一开始不知道如何对准，但询问老师后很快得到了解决
+	
+	
+	
+	\section{思考题}
+	\begin{enumerate}
+		\item 各实验内容误差主要影响是什么？\newline
+		
+		双缝干涉：误差主要在于环境微波的影响，例如测量负一级小时(图\ref{fig:负一级小细扫}，表\ref{tab:负一级小细扫})，由于环境微波，找不到零点，这导致拟合时误差极大\newline
+		迈克尔逊干涉：在我的实验中，这是结果与标定值最接近的一种方法。误差可能来自：
+		\begin{itemize}
+			\item 实验时发射喇叭及接收喇叭没有对准，导致最小值处不是0，难以判断最小值
+			\item 发射喇叭发射功率太低，导致出现一个较大区间内数值均为0
+		\end{itemize}\newline
+		布拉格衍射：由于需要利用极大值来判定角度，因此不可避免的会受到环境微波的影响，这可能会导致极大值对应的角度产生偏离，带来不准的测量结果。同时，由于细扫的步长为1°，对最大角测量的精度带来的系统误差也存在
+		\item 金属是一种良好的微波反射器。其它物质的反射特性如何？是否有部分能量透过这些物质，还是被吸收了？比较导体与非导体的反射特性。\newline
+		
+		当微波与物质作用时，将发生三种情况：
+		\begin{enumerate}
+			\item 与金属作用，被反射回来，因此在本实验中利用铝板当作反射镜
+			\item 与绝缘体作用，将穿透绝缘体，但也有一部分被反射，几乎不被吸收，本实验中利用玻璃作为半透半反镜
+			\item 与某些极性分子作用(例如水分子和脂肪)并被吸收，反射效果相对吸收效果可忽略：极性分子在微波中振动，总是尝试与微波中电场方向一致，因此导致物质温度的升高(微波炉原理)和微波的吸收
+		\end{enumerate}
+		
+		一般来说，导体如金属会反射微波，几乎不吸收微波；绝缘体则可以透过微波，几乎不发生反射
+		
+		\item 为避免每台仪器微波间的干扰，使用吸波材料对每套设备进行了微波屏蔽，请问吸波材料的工作机理是什么？与屏蔽微波波长的关系是什么？\newline
+		
+		对微波的吸收一般有如下几种工作机理：
+		\begin{enumerate}
+			\item 介电损耗：介电材料吸收微波的主要机制是材料在电磁场中极化导致的能量损失。 当微波穿过材料时，电场会使材料内的电荷发生振荡。 这些振荡通过摩擦损耗产生热量，这就是吸收的原因
+			\item 磁损耗： 对于磁性材料（如铁氧体），吸收发生的原因是微波场与材料磁矩之间的相互作用。 材料中的磁偶极子试图与微波辐射的交变磁场对齐，这一过程以热量的形式耗散能量
+			\item 阻抗匹配：材料与自由空间阻抗的匹配程度对吸收效率有很大影响。 与自由空间阻抗匹配的材料能吸收更多的微波辐射，因为它们能阻止大部分能量被反射回去
+			\item 共振效应： 有些材料设计用于吸收特定频率的微波辐射，通常是利用共振吸收。 在特定的共振频率下，材料的自然振荡与微波一致，从而实现最大能量吸收
+		\end{enumerate}
+		
+		我认为实验室的吸波材料可能的机理是阻抗匹配和介电损耗，通过阻抗匹配来减少反射，介电损耗来吸收，除此之外，吸收材料被设计为特殊的形状来减少反射。其他两种机理，磁损耗是对于磁性材料，我认为学校的吸波材料不是铁氧体，故排除；共振效应是吸收特定频率的微波，显然价格昂贵，且不适用于教学实验室，故排除
+		
+		吸收材料与波长的关系有：
+		\begin{enumerate}
+			\item 材料厚度和波长： 当材料的厚度与微波波长相当时，材料的吸收特性通常会达到最佳状态。 一般来说，当材料厚度约为波长的四分之一或一半时，吸收微波能量的效果最佳。 材料被设计为在特定频段内有效，这些频段与特定波长范围相对应
+			\item 微波频率范围： 吸收特定频率微波辐射的材料通常以特定波长为目标。 例如，材料可能被设计用于吸收 X 波段（8-12 千兆赫）、Ku 波段（12-18 千兆赫）或其他频率范围的辐射，每个频率范围对应一个特定的波长范围。 波长会影响材料与电磁波的相互作用，并决定微波吸收的最佳设计。
+		\end{enumerate}
+		
+		\item 假如预先不知道晶体中晶面的方向，是否会增加实验的复杂性？又该如何定位这些晶面？\newline
+		
+		会增加；可以通过德拜法，将晶体旋转起来，探测出射微波在整个空间内的分布，通过微波圆环的位置来确定有哪些晶面，并得出间距\(d\)，代入公式得出衍射极强角\(\phi\)后依次调整发射喇叭和接收喇叭的方向为\(\pm \phi\)，转动晶体，当接收喇叭达到最值时两个喇叭的角平分面即为晶面的法线
+		
+	\end{enumerate}
+	
+
+
+	\newpage
+	\noindent {\LARGE 附录}
+	
+	\appendix
+	
+	\section{mathematica拟合作图计算代码}
+	修改"data"中的数据，拟合范围以及Plot范围即可拟合绘图
+	\begin{lstlisting}
+		ClearAll["Global`*"]
+		a = 3.5*10^-2;
+		d = 8.5*10^-2;
+		data = {{30, 16.1}, {31, 7.0}, {32, 3.2}, {33, 2.3}, {34, 1.5}, {35, 
+				2.0}, {36, 3.8}, {37, 1.3}, {38, 12.1}};
+		fitpara = 
+		FindFit[data, 
+		k*(Sin[(Pi*a)/l Sin[(x + m)*Pi/180]]/((Pi*a)/
+		l Sin[(x + m)*Pi/180]))^2*(Sin[2 (Pi*d)/l Sin[(x + m)*Pi/180]]/
+		Sin[(Pi*d)/l Sin[(x + m)*Pi/180]])^2, {k, {l, 0.032}, {m, 12}}, 
+		x];
+		fitted = 
+		k*(Sin[(Pi*a)/l Sin[(x + m)*Pi/180]]/((Pi*a)/
+		l Sin[(x + m)*Pi/180]))^2*(Sin[2 (Pi*d)/l Sin[(x + m)*Pi/180]]/
+		Sin[(Pi*d)/l Sin[(x + m)*Pi/180]])^2 /. fitpara;
+		Show[Plot[fitted, {x, 30, 38}, PlotStyle -> Red, 
+		PlotLabel -> "正一级细扫图像", AxesLabel -> {"\[Theta]/°", "U/mV"}], 
+		ListPlot[data]]
+	\end{lstlisting}
+	
+	\section{原始数据记录表}
+	\includepdf[page=1-3]{微波原始数据.pdf}
+\end{document}
+		
+	
