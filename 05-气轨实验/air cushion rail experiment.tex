@@ -1,0 +1,686 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper]{geometry}
+\geometry{left=2.0cm,right=2.0cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage{ctex} % 支持中文的LaTeX宏包
+\usepackage{amsmath,amsfonts,graphicx,amssymb,bm,amsthm,mathrsfs,mathtools,breqn} % 数学公式和符号的宏包集合
+\usepackage{algorithm,algorithmicx} % 算法和伪代码的宏包
+\usepackage[noend]{algpseudocode} % 算法和伪代码的宏包
+\usepackage{fancyhdr} % 自定义页眉页脚的宏包
+\usepackage[framemethod=TikZ]{mdframed} % 创建带边框的框架的宏包
+\usepackage{fontspec} % 字体设置的宏包
+\setmainfont{Times New Roman} % Set the main font to Times New Roman
+\usepackage{adjustbox} % 调整盒子大小的宏包
+\usepackage{fontsize} % 设置字体大小的宏包
+\usepackage{tikz,xcolor} % 绘制图形和使用颜色的宏包
+\usepackage{multicol} % 多栏排版的宏包
+\usepackage{multirow} % 表格中合并单元格的宏包
+\usepackage{pdfpages} % 插入PDF文件的宏包
+\RequirePackage{listings} % 在文档中插入源代码的宏包
+\RequirePackage{xcolor} % 定义和使用颜色的宏包
+\usepackage{wrapfig} % 文字绕排图片的宏包
+\usepackage{bigstrut,multirow,rotating} % 支持在表格中使用特殊命令的宏包
+\usepackage{booktabs} % 创建美观的表格的宏包
+\usepackage{circuitikz} % 绘制电路图的宏包
+\usepackage{float} % Add this in the preamble
+\usepackage{array}
+\usepackage{subcaption}
+\usepackage{physics}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{siunitx}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{
+	frame=tb,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	framerule=1pt,
+	rulecolor=\color{gray!35},
+	backgroundcolor=\color{gray!5},
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3,
+}
+
+% 轻松引用, 可以用\cref{}指令直接引用, 自动加前缀. 
+% 例: 图片label为fig:1
+% \cref{fig:1} => Figure.1
+% \ref{fig:1}  => 1
+\usepackage[capitalize]{cleveref}
+% \crefname{section}{Sec.}{Secs.}
+\Crefname{section}{Section}{Sections}
+\Crefname{table}{Table}{Tables}
+\crefname{table}{Table.}{Tabs.}
+
+\setmainfont{Times New Roman}
+
+
+
+
+\renewcommand{\emph}[1]{\begin{kaishu}#1\end{kaishu}}
+
+%改这里可以修改实验报告表头的信息
+\newcommand{\experiName}{气轨实验}
+\newcommand{\supervisor}{姚楚豪}
+\newcommand{\name}{徐博涵}
+\newcommand{\studentNum}{2023K8009908004}
+\newcommand{\class}{1}
+\newcommand{\group}{04}
+\newcommand{\seat}{08}
+\newcommand{\dateYear}{2024}
+\newcommand{\dateMonth}{10}
+\newcommand{\dateDay}{28}
+\newcommand{\room}{716}
+\newcommand{\others}{$\square$}
+%% 如果是调课、补课, 改为: $\square$\hspace{-1em}$\surd$
+%% 否则, 请用: $\square$
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+	
+	%若需在页眉部分加入内容, 可以在这里输入
+	% \pagestyle{fancy}
+	% \lhead{\kaishu 测试}
+	% \chead{}
+	% \rhead{}
+	
+	\begin{center}
+		\LARGE \bf 《\, 基\, 础\, 物\, 理\, 实\, 验\, 》\, 实\, 验\, 报\, 告
+	\end{center}
+	
+	\begin{center}
+		\noindent \emph{实验名称}\underline{\makebox[25em][c]{\experiName}}
+		\emph{指导教师}\underline{\makebox[8em][c]{\supervisor}}\\
+		\emph{姓名}\underline{\makebox[6em][c]{\name}} 
+		% 如果名字比较长, 可以修改box的长度"6em"
+		\emph{学号}\underline{\makebox[10em][c]{\studentNum}}
+		\emph{分班分组及座号} \underline{\makebox[5em][c]{\class \ -\ \group \ -\ \seat }\emph{号}} （\emph{例}:\, 1\,-\,04\,-\,5\emph{号}）\\
+		\emph{实验日期} \underline{\makebox[3em][c]{\dateYear}}\emph{年}
+		\underline{\makebox[2em][c]{\dateMonth}}\emph{月}
+		\underline{\makebox[2em][c]{\dateDay}}\emph{日}
+		\emph{实验地点}\underline{{\makebox[4em][c]\room}}
+		\emph{调课/补课} \underline{\makebox[3em][c]{\others\ 是}}
+		\emph{成绩评定} \underline{\hspace{5em}}
+		{\noindent}
+		\rule[8pt]{17cm}{0.2em}
+	\end{center}
+
+
+
+	
+\section{实验目的}
+	\begin{enumerate}
+		\item 观察简谐振动现象，测定简谐振动的周期。
+		\item 求弹簧的劲度系数\(k\)和有效质量\(m_0\)。
+		\item 观察简谐振动的运动学特征。			\item 验证机械能守恒定律。
+		\item 用极限法测定瞬时速度。
+		\item 深入了解平均速度和瞬时速度的关系。
+	\end{enumerate}
+	
+
+
+
+\section{实验仪器}
+气垫导轨、滑块、附加砝码、弹簧、 U 型挡光片、平板挡光片、数字毫秒计、天平等
+
+
+
+\section{实验原理}
+
+\subsection{简谐振动中\(k,m_0\)的测量}
+	\begin{figure}[H]
+			\centering
+			\includegraphics[height=3cm]{SHO1.png}
+			\caption{简谐运动原理图}
+			\label{fig:SHO theory}
+	\end{figure}
+			如图，设滑块的位置为\(x\)，每个弹簧的伸长量为\(x_0\)。以右侧为\(x\)轴正向，左侧弹簧给滑块施加的力为\(-k_1(x+x_0)\)，右侧为\(k_1(x_0-x)\)，滑块所受合力为
+			\begin{equation*}
+				m\ddot{x}=-k_1(x+x_0)+k_1(x_0-x)=-2k_1(x-x_0)
+			\end{equation*}
+			令\(k=2k_1\)，则方程的解为
+			\begin{equation*}
+				x=A \sin (\omega_0 t + \varphi_0)
+			\end{equation*}
+			其中\(A\)为振幅，\(\varphi_0\)为初相位，
+			\begin{equation*}
+				\omega_0=\sqrt{\frac{k}{m}}
+			\end{equation*}
+			\(\omega_0\)为系统的固有频率，其中\(m=m_0+m_1\)，\(m_1\)为滑块质量，\(m_0\)为弹簧的有效质量，于是振动周期\(T\)可以写成
+			\begin{equation*}
+				T=\frac{2\pi}{\omega_0}=2\pi\sqrt{\frac{m}{k}}=2\pi\sqrt{\frac{m_0+m_1}{k}}
+			\end{equation*}
+			等价于
+			\begin{equation*}
+				T^2=4\pi^2\frac{m_0+m_1}{k}
+			\end{equation*}
+			在实验操作中，我们将通过向滑块上添加骑码，改变\(m_1\)，作出\(T^2-m\)的图线，通过斜率\(\frac{4\pi^2}{k}\)得出\(k\)，通过其截距\(\frac{4\pi^2}{k}m_0\)得出\(m_0\)
+\subsection{瞬时速度的测量 }
+			\begin{figure}[H]
+				\centering
+				\includegraphics[height=3cm]{velocity.png}
+				\caption{测量瞬时速度}
+				\label{fig:SHO theory}
+			\end{figure}
+			瞬时速度定义为\[v_0=\lim_{\Delta t \to 0}\frac{\Delta s}{\Delta t}\]，但是在真实实验中显然无法使\(\Delta t =0\)，于是，我们采用一个长度为\(\Delta s\)的挡光片，此时通过测量\(\frac{\Delta s}{\Delta t}\)得出滑块的平均速度，
+			\begin{equation*}
+				\bar{x}=\frac{\Delta s}{\Delta t}=v_0+\frac{a}{2}\Delta t
+			\end{equation*}
+			其中\(a\)为滑块通过光电门时的加速度，\(v_0\)为瞬时速度。通过改变挡光片的宽度$\Delta s$，可以改变\(\Delta t\)，再通过做图取截距得出瞬时速度。 
+\subsection{机械能守恒}
+			当测量出瞬时速度\(v_0\)之后，我们就可以计算总能量并验证机械能守恒。
+			\begin{equation*}
+				E=E_k+E_p=\frac{1}{2}mv_0^2+\frac{1}{2}kx^2=\frac{1}{2}kA^2
+			\end{equation*}
+			通过此式，就可以验证弹性势能和动能之间的相互转化，并验证机械能守恒。
+\subsection{\(x^2-v^2\)关系}
+			通过对\(x\)求导，可得\(v\)的表达式
+			\begin{equation*}
+				v=A\omega_0 \cos (\omega_0 t+\varphi_0)
+			\end{equation*}
+			结合\(v,x\)的表达式，通过\(\sin(x)^2+\cos(x)^2=1\)消去\(t\),得
+			\begin{equation*}
+				v^2=\omega_0^2(A^2-x^2)
+			\end{equation*}
+			通过此式，即可描述运动学特征，\(x^2-v^2\)关系。
+
+
+
+\section{实验内容}
+	\begin{enumerate}
+		\item 学会使用光电门测速度和测周期。
+		\item 调节气垫导轨至水平状态，通过测量任意两点的速度变化，验证气垫导轨是否处于
+		水平状态。
+		\item 测量弹簧振子的振动周期并考察振动周期和振幅的关系。滑块的振幅 A 分别取
+		$10.0, 20.0, 30.0, 40.0 cm$ 时，测量其相应振动周期。分析和讨论实验结果（证明周期和振幅无关）。
+		\item 利用实验原理(a)中的方法，测出\(k,m_0\)
+		\item 将滑块装上U型挡光片，可测得速度，并得出速度和位移的关系。作出\(v^2-x^2\)的图线，并验证斜率和截距满足实验原理(d)中的表达式。
+		\item 证明系统的机械能守恒。固定\(A\)为定值，改变测量速度的位置\(x\)，测出不同\(x\)处的速度，计算并验证各个位置的机械能守恒。
+		\item 利用实验原理(b)，中的方法测量瞬时速度，并改变倾角\(\theta\)和距离\(L\)，重复实验。
+	\end{enumerate}
+
+
+
+\section{实验结果与数据处理}
+
+	\subsection{气垫导轨调平}
+	将两个光电门放置在相隔至少80cm处，放置1cm的挡光片。\newline
+	\indent 调试结果如下表所示，其中 $\eta =| \frac{v_2 - v_1}{v_1} | \times 100 \,\%$。
+	\begin{table}[H]\centering
+		%\renewcommand{\arraystretch}{1.5} % 调整行间距为 1.5 倍
+		%\setlength{\tabcolsep}{1.5mm} % 调整列间距
+		\caption{气垫导轨调试数据}
+		\label{tab: 气垫导轨调试数据}
+		\begin{tabular}{cccccccccc}\toprule
+			$v_1$ (cm/s)& $v_2$ (cm/s)& 误差 $\eta$ \\ 
+			\midrule
+			26.50	&26.43	&0.26 \% \\
+			23.90	&23.82	&0.34 \% \\
+			23.98	&24.03	&0.21 \% \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	注意：此处速度不可过快或过慢，以$15\mathrm{cm/s} \leq v \leq 30\mathrm{cm/s}$ 为宜，否则调平数据不准；并且需要使误差 $\eta < 0.5 \% $。
+	
+	\subsection{测量弹簧振子的振动周期并考察振动周期和振幅的关系}
+	
+    滑块的振幅 $A$ 分别取 10.0，20.0，30.0，40.0 cm时，测量其振动周期:
+	\begin{table}[H]\centering
+		%\renewcommand{\arraystretch}{1.5} % 调整行间距为 1.5 倍
+		%\setlength{\tabcolsep}{1.5mm} % 调整列间距
+		\caption{振子振动周期与振幅的关系}
+		\label{振子振动周期与振幅的关系}
+		\begin{tabular}{cccccccccc}\toprule
+			振幅 $A$ (cm) & 10 & 20 & 30 & 40  \\
+			\midrule
+			$T_1$ (ms) &1604.64	&1602.69	&1601.43	&1600.87 \\
+			$T_2$ (ms) &1604.85	&1602.09	&1601.26	&1600.87 \\
+			$T_3$ (ms) &1605.54	&1602.11	&1601.42	&1601.08 \\
+			$T_4$ (ms) &1605.98	&1601.88	&1601.61	&1600.99 \\
+			$T_5$ (ms) &1605.68	&1602.51	&1601.60	&1601.10 \\
+			$\overline{T}$ (ms) &1605.34	&1602.14	&1601.47	&1600.99 \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	尽管随着振幅的增加，振动周期有所下降，但是最大相对差值\[\frac{1605.34-1600.99}{1600.99} \times 100\% =0.27 \%\]可见这是一个高阶小量，可忽略。但是推测由于弹簧老化，导致振幅较小时的劲度系数大于振幅较大时，因此振幅较大时的周期相对更小。
+	
+	\subsection{研究弹簧振子振动周期与振子质量之间的关系}
+	振子的振幅 $A$  取 40.0 cm ，得到数据如下：
+	\begin{table}[H]\centering
+		%\renewcommand{\arraystretch}{1.5} % 调整行间距为 1.5 倍
+		%\setlength{\tabcolsep}{1.5mm} % 调整列间距
+		\caption{振子周期与质量的关系表}
+		\label{振子周期与质量的关系}
+		\begin{tabular}{cccccccccc}\toprule
+			$m $ (g) & 216.98 & 229.44 & 241.85 & 254.36 & 266.79  \\
+			\midrule
+			$T_1$ (ms) &1600.59	&1646.99	&1687.85	&1729.80	&1774.53 \\
+			$T_2$ (ms) &1600.77	&1647.48	&1688.02	&1730.01	&1774.72 \\
+			$T_3$ (ms) &1601.05	&1647.93	&1688.01	&1730.10	&1774.98 \\
+			$T_4$ (ms) &1601.17	&1647.77	&1687.92	&1730.29	&1775.07 \\
+			$T_5$ (ms) &1601.28	&1647.91	&1687.97	&1730.22	&1774.93 \\
+			$T_6$ (ms) &1601.31	&1647.69	&1687.95	&1730.16	&1775.17 \\
+			$T_7$ (ms) &1601.56	&1647.76	&1688.02	&1730.24	&1775.09 \\
+			$T_8$ (ms) &1601.46	&1647.88	&1688.23	&1730.34	&1774.96 \\
+			$T_9$ (ms) &1601.49	&1647.89	&1688.12	&1730.39	&1775.24 \\
+			$T_{10}$ (ms) &1601.38	&1647.90	&1688.22	&1730.50	&1775.10 \\
+			$\overline{T}$ (ms) &1601.21	&1647.72	&1688.04	&1730.20	&1774.98 \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	作$m-\overline{T}^2$图，如图\ref{fig:T^2-m}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=5cm]{T^2-m.png}
+		\caption{振子周期与质量的关系图}
+		\label{fig:T^2-m}
+	\end{figure}
+	其中相关系数$r^2=0.999407$，斜率$a=11658.7$，截距$b=34438.6$。代入公式：
+	\[a=\frac{4\pi^2}{k}\]
+	\[b=\frac{4\pi^2m_0}{k}\]\\
+	解得
+	\[k=3.386\mathrm{N/m}\]
+	\[m_0=10.17\mathrm{g}\]
+	也即弹簧的劲度系数为$3.386\mathrm{N/m}$，有效质量为$10.17\mathrm{g}$。
+	
+	\subsection{研究速度与位移的关系}
+	振子的振幅 $A$ 取40.0 cm，得到数据如下：
+	\begin{table}[H]\centering
+		%\renewcommand{\arraystretch}{1.5} % 调整行间距为 1.5 倍
+		%\setlength{\tabcolsep}{1.5mm} % 调整列间距
+		\caption{速度与位移的关系表}
+		\label{速度与位移的关系}
+		\begin{tabular}{cccccccccc}\toprule
+			位移 $x$ (cm) & 10 & 15 & 20 & 25 & 30  \\
+			\midrule
+			$v_1$ (cm/s) &148.15	&143.47	&134.59	&121.95	&103.73 \\
+			$v_2$ (cm/s) &149.25	&143.60	&134.59	&122.40	&104.93 \\
+			$v_3$ (cm/s) &149.70	&142.65	&134.23	&122.25	&104.06 \\
+			$\overline{v}$ (cm/s) &149.03	&143.24	&134.47	&122.20	&104.24 \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	作$v^2-x^2$图，如图\ref{fig:v^2-x^2}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=5cm]{v^2-x^2.png}
+		\caption{速度与位移的关系图}
+		\label{fig:v^2-x^2}
+	\end{figure}
+	其中相关系数$r^2=0.999727$，斜率$a=-14.168$，截距$b=23697.3$。代入公式
+	\[\omega_0=\sqrt{-a}=\SI{3.764}{s^{-1}} \quad T=\frac{2\pi}{\omega_0}=\SI{1669.2}{ms}\]
+	这与前文计算得到的$\overline{T}=\SI{1600.99}{ms}$相差在误差允许范围内，猜测两者不同是由于振子并非在做严格的简谐运动，故$T=\frac{2\pi}{\omega_0}$不完全成立。
+	
+	\subsection{研究机械能是否守恒}
+	振子的振幅 $A$ 取40.0 cm，数据如下表所示，其中 $m = m_0 + m_1 = \SI{227.15}{g}$。
+	\begin{table}[H]\centering
+		%\renewcommand{\arraystretch}{1.5} % 调整行间距为 1.5 倍
+		%\setlength{\tabcolsep}{1.5mm} % 调整列间距
+		\caption{不同位置的机械能情况}
+		\label{不同位置的机械能情况}
+		\begin{tabular}{cccccccccc}\toprule
+			$x$ (m) & 0.10 & 0.15 & 0.20 & 0.25 & 0.30  \\
+			\midrule
+			$v$ (m/s) &1.4903	&1.4324	&1.3447	&1.2220	&1.0424 \\
+			$E_k$ (J)&0.252	&0.233	&0.205	&0.170	&0.123 \\
+			$E_p$ (J)&0.017	&0.038	&0.068	&0.106	&0.152 \\
+			$E$ (J)&0.269	&0.271	&0.273	&0.276	&0.275 \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	尽管总体上机械能$E$的变化在误差允许范围内，但是呈现上升的趋势，说明存在系统误差，例如弹簧的有效质量$m_0$计算较小或劲度系数$k$计算过大。
+	
+	\subsection{改变振幅 $A$ ，测出相应的$v_{max}$,由${v_{max}}^2$-$A^2$图像求k}
+	不同振幅 $A$ 下的最大速度如下：
+	\begin{table}[H]\centering
+		%\renewcommand{\arraystretch}{1.5} % 调整行间距为 1.5 倍
+		%\setlength{\tabcolsep}{1.5mm} % 调整列间距
+		\caption{振幅与最大速度的关系}
+		\label{振幅与最大速度的关系}
+		\begin{tabular}{cccccccccc}\toprule
+			$A$ (cm) & 10 & 15 & 20 & 25 & 30 \\
+			\midrule
+			$v_{\max, 1}$ (cm/s) &38.49	&56.34	&76.39	&95.97	&113.64 \\
+			$v_{\max, 2}$ (cm/s) &38.80	&56.40	&76.51	&96.43	&114.81 \\
+			$v_{\max, 3}$ (cm/s) &38.28	&57.31	&77.10	&96.06	&114.16 \\
+			$\overline{v_{\max}}$ (cm/s) &38.52	&56.68	&76.67	&96.15	&114.20 \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	作$\overline{v_{\max}}^2$-$A^2$图，如图\ref{fig:v_max^2-A^2}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=5cm]{v_max^2-A^2.png}
+		\caption{最大速度与振幅的关系图}
+		\label{fig:v_max^2-A^2}
+	\end{figure}
+	其中相关系数$r^2=0.999647$，斜率$a=13.558$，截距$b=21.223$。代入式
+	\[k^{\prime}=ma=\SI{3.080}{N/m}\]
+	这小于前文求出的$k=3.386\mathrm{N/m}$，也反映出在5.3中计算的结果可能出现弹簧的有效质量$m_0$计算较小或劲度系数$k$计算过大的情况，与5.5中得出的推测一致。
+	
+	\subsection{测定瞬时速度与不同U型挡光片通过光电门所用的时间（$A_p$=50cm），计算平均速度}
+	此小节我们设定 Ap = 50 cm，并添加一块垫片以改变倾斜角度，得到数据如下：
+	
+	\begin{table}[H]\centering
+	%\renewcommand{\arraystretch}{1.5} % 调整行间距为 1.5 倍
+	%\setlength{\tabcolsep}{1.5mm} % 调整列间距
+	\caption{第一组瞬时速度求解}
+	\begin{tabular}{cccccccccc}
+		\toprule
+		挡光片宽度$\Delta s$ & $\Delta t_1$ (ms) & $\Delta t_2$ (ms) & $\Delta t_3$ (ms) & $\Delta t_4$ (ms) & $\Delta t_5$ (ms) & $\Delta t$ (ms) & $\overline{v}$ (m/s)  \\
+		\midrule
+		1 cm   &27.68 &27.57 &27.71 &27.61 &27.85 &27.68  & 0.361\\
+		3  cm  &81.19 &81.76 &81.38 &81.68 &81.51 &81.59  & 0.368\\
+		5  cm  &135.10 &135.29 &135.75 &135.57 &135.69 &135.22 & 0.369\\
+		10  cm &262.81 &262.51 &263.52 &262.48 &263.28 &262.70 & 0.380
+		\\
+		\bottomrule
+	\end{tabular}
+	\end{table}
+	
+	画出$\overline{v}-\Delta s$图以及$\overline{v}-\Delta t$图，如图\ref{fig:v1}
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{v-s 1.png}  % Set height to 4cm, maintain aspect ratio
+			\caption{$\overline{v}-\Delta s$图 \quad 截距为0.360}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{v-t 1.png}  % Set height to 4cm, maintain aspect ratio
+			\caption{$\overline{v}-\Delta t$ \quad 截距为0.360}
+		\end{subfigure}
+		\caption{线性外推图像}
+		\label{fig:v1}
+	\end{figure}
+	
+	两种外推方式得出的均为$v=0.360 \ \mathrm{m/s}$，说明与理论符合的较好。
+	
+	
+	\subsection{改变导轨倾角，测定瞬时速度与不同U型挡光片通过光电门所用的时间（$A_p$=50cm），计算平均速度}
+	在上一小节的基础上，再添加一块垫片以增加倾斜角度，得到数据如下：
+	\begin{table}[H]\centering
+		%\renewcommand{\arraystretch}{1.5} % 调整行间距为 1.5 倍
+		%\setlength{\tabcolsep}{1.5mm} % 调整列间距
+		\caption{第二组瞬时速度求解}
+		\begin{tabular}{cccccccccc}\toprule
+			挡光片宽度 & $\Delta t_1$ (ms) & $\Delta t_2$ (ms) & $\Delta t_3$ (ms) & $\Delta t_4$ (ms) & $\Delta t_5$ (ms) & $\Delta t$ (ms) & $\overline{v}$ (m/s)  \\
+			\midrule
+			1 cm   &20.43       &20.47  &20.28  &20.38  &20.38  &20.39  &0.490 \\       
+			3  cm  &59.93   &60.21  &60.05  &60.32  &60.06  &60.11  &0.499 \\        
+			5  cm  &100.01  &100.09 &99.86  &100.00 &99.99  &99.99  &0.500 \\        
+			10  cm &195.18  &195.01 &195.67 &195.85 &195.03 &195.35 &0.512 \\        
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	
+	画出$\overline{v}-\Delta s$图以及$\overline{v}-\Delta t$图，如图\ref{fig:v2}
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{v-s 2.png}  % Set height to 4cm, maintain aspect ratio
+			\caption{$\overline{v}-\Delta s$图 \quad 截距为0.491}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{v-t 2.png}  % Set height to 4cm, maintain aspect ratio
+			\caption{$\overline{v}-\Delta t$ \quad 截距为0.490}
+		\end{subfigure}
+		\caption{线性外推图像}
+		\label{fig:v2}
+	\end{figure}
+	
+	通过截距值，大致可以推断出瞬时速度为$v=0.490 \ \mathrm{m/s}$。
+	
+	\subsection{测定瞬时速度与不同U型挡光片通过光电门所用的时间（$A_p$=60cm），计算平均速度}
+	在上一小节的基础上，保持倾斜角度不变，调$A_p$距离为 60 cm，得到数据如下
+	\begin{table}[H]\centering
+		%\renewcommand{\arraystretch}{1.5} % 调整行间距为 1.5 倍
+		%\setlength{\tabcolsep}{1.5mm} % 调整列间距
+		\caption{第三组瞬时速度求解}
+
+	\begin{tabular}{cccccccccc}\toprule
+		挡光片宽度 & $\Delta t_1$ (ms) & $\Delta t_2$ (ms) & $\Delta t_3$ (ms) & $\Delta t_4$ (ms) & $\Delta t_5$ (ms) & $\Delta t$ (ms) & $\overline{v}$ (m/s)  \\
+		\midrule
+		1 cm   &18.50       &18.63  &18.55  &18.44  &18.58  &18.54  &0.539 \\        
+		3  cm  &54.75       &55.13  &54.94  &54.84  &54.76  &54.89  &0.547 \\        
+		5  cm  &91.47       &91.49  &91.38  &91.19  &91.29  &91.36  &0.547 \\        
+		10  cm &179.07 &179.51      &179.39 &179.72 &179.07 &179.35 &0.558 \\        
+		\bottomrule
+	\end{tabular}
+	\end{table}
+	
+	画出$\overline{v}-\Delta s$图以及$\overline{v}-\Delta t$图，如图\ref{fig:v3}
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{v-s 3.png}  % Set height to 4cm, maintain aspect ratio
+			\caption{$\overline{v}-\Delta s$图 \quad 截距为0.538}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{v-t 3.png}  % Set height to 4cm, maintain aspect ratio
+			\caption{$\overline{v}-\Delta t$ \quad 截距为0.538}
+		\end{subfigure}
+		\caption{线性外推图像}
+		\label{fig:v3}
+	\end{figure}
+	
+	两种外推方式都得出瞬时速度为$v=0.538 \mathrm{m/s}$。
+	
+	\section{思考题}
+	
+	\subsection*{6.1 \ \  仔细观察，可以发现滑块的振幅是不断减小的，那么为什么还可以认为滑块是做简谐振动？实验中应如何尽量保证滑块做简谐振动？}
+	因为减少量相对振幅本身为小量，且阻尼情况可视为欠阻尼，因此简谐运动受影响的部分仅为不断衰减的振幅，对正弦部分影响较小。
+	
+	实验中，我们首先利用气垫导轨减小摩擦的影响；再通过调水平减小重力的影响。
+	
+	\subsection*{6.2 \ \  试说明弹簧的等效质量的物理意义，如不考虑弹簧的等效质量，对实验结果有什么影响？}
+	
+	由于气垫导轨本身的限制，无法加上过重的物体，因此弹簧的质量相对物块来说已不再是高阶小量，因此需要考虑弹簧的等效质量。同时，等效质量可作为修正参量加入理论中，修正一些由于实验情况不完全理想带来的误差。
+	
+	若不考虑弹簧的等效质量，则计算时会出现机械能不守恒等情况。
+	
+	
+	\subsection*{6.3 \ \  测量周期时，光电门是否必须在平衡位置上？如不在平衡位置会产生什么不同的效果？}
+	理论上并不需要，这对我们的测量结果并没有影响。
+	
+	不过，在实际操作的过程中，由于存在能量耗散，导致振幅减小，如果不在平衡位置将会不便测量，造成较大的误差。此外，不在平衡位置导致每次测量的时候不处于周期的同一位置，这也势必会很不方便测量。
+	
+	\subsection*{6.4 \ \  气垫导轨如果不水平，是否能进行该实验？}
+	理论上可以进行，因为考虑重力修正后滑块简谐运动影响仅限于平衡点的移动，但是对于实验来说则会引入过多的不确定量，使得实验操作和数据处理变得更加复杂，因此需要将气垫导轨调水平。
+	
+	\subsection*{6.5 \ \  使用平板形挡光片和两个光电门，如何测量滑块通过倾斜气轨上某一点的瞬时速度？}
+	
+	设该点的速度为$v_0$，加速度为$a$，则物块通过给该点后的速度及位移为
+	\[v=v_0+a t\]
+	\[x=v_0 t+\frac{1}{2}at^2\]
+	
+	将一个光电门的前端对准待测点，使物块通过两个光电门，分别测得通过两个光电门的平均速度速度$v_i=\frac{\Delta a}{\Delta t_i}$，设$\Delta t_i$物块通过两点的时长，$\delta t$为两次光电门响应的时间差，$t_i$为物块刚到达两点的时间，其中$t_1=0,\ t_2=\Delta t$，于是
+	\[v_1=v_0+\frac{a}{2}\Delta t_1\]
+	\[v_2=v_0+a(\Delta t+\frac{1}{2}\Delta t_2)\]
+	
+	联立方程组即可解得该点速度$v_0$。
+	
+	\subsection*{6.6 \ \ 气垫导轨如果不水平，对瞬时速度的测定有什么影响？}
+	
+	并不影响。事实上，测定瞬时速度的实验，还会要求我们的气垫导轨不水平。
+	
+	\subsection*{6.7 \ \ 每次测量滑块和 U 型挡光片总质量不同是否对瞬时速度测定有影响？}
+	理论上应该是没有的，因为加速度与具体的质量值无关，进而，速度值也与具体的质量值无关。但是，总质量不同可能导致阻力的大小不同，因此可能会有可以忽略影响。
+	
+	\section{实验总结与心得体会}
+	这个实验还是比较轻松的。在实验中，我认识到理论和实验的差距，理论上的假设并不能在实验上完美的呈现，这时就需要利用数据处理方法来尽量逼近理论上的理想情况。具体来说，我学会了利用外推法以及来逼近某个数值。
+	
+	同时，我还意识到在以后真正的实验中，并没有提前预设的标准答案。当完成结果后，需要通过别的方法来检验结果的正确性，例如在本实验中用两种方法来测量$k$；或者通过分析来检验，例如在本实验中检验数据是否满足能量守恒定律。
+	
+	\newpage
+	\noindent {\LARGE 附录}
+	
+	\appendix
+	
+	
+	
+	\section{绘图mathematica代码}
+	
+	\subsection{图\ref{fig:T^2-m}}
+	\begin{lstlisting}
+		ClearAll["Global`*"]
+		
+		(*Define the data*)
+		data = {{216.98, 1601.21^2}, {229.44, 1647.72^2}, {241.85, 
+				1688.04^2}, {254.36, 1730.20^2}, {266.79, 1774.98^2}};
+		
+		(*Perform the linear fit using LinearModelFit*)
+		lm = LinearModelFit[data, x, x];
+		
+		(*Extract the fitted function*)
+		fitted = lm[x];
+		
+		(*Extract the slope and intercept*)
+		{intercept, slope} = lm["BestFitParameters"];
+		
+		(*Extract the R-squared value*)
+		rsquared = lm["RSquared"];
+		
+		(*Print the slope,intercept,and R-squared value*)
+		Print["Slope: ", slope];
+		Print["Intercept: ", intercept];
+		Print["R-squared value: ", rsquared];
+		
+		(*Plot the fitted function and the data points*)
+		Show[Plot[fitted, {x, 200, 275}, 
+		AxesLabel -> {"m/g", 
+			"\!\(\*SuperscriptBox[\(T\), \
+			\(2\)]\)/\!\(\*SuperscriptBox[\(ms\), \(2\)]\)"}, PlotStyle -> Red, 
+		PlotLabel -> "振子周期与质量的关系"], ListPlot[data, PlotStyle -> Blue]]
+	\end{lstlisting}
+
+	\subsection{图\ref{fig:v^2-x^2}}
+	\begin{lstlisting}
+		ClearAll["Global`*"]
+		
+		(*Define the data*)
+		data = {{10^2, 149.03^2}, {15^2, 143.24^2}, {20^2, 134.47^2}, {25^2, 
+				122.2^2}, {30^2, 104.24^2}};
+		
+		(*Perform the linear fit using LinearModelFit*)
+		lm = LinearModelFit[data, x, x];
+		
+		(*Extract the fitted function*)
+		fitted = lm[x];
+		
+		(*Extract the slope and intercept*)
+		{intercept, slope} = lm["BestFitParameters"];
+		
+		(*Extract the R-squared value*)
+		rsquared = lm["RSquared"];
+		
+		(*Print the slope,intercept,and R-squared value*)
+		Print["Slope: ", slope];
+		Print["Intercept: ", intercept];
+		Print["R-squared value: ", rsquared];
+		
+		(*Plot the fitted function and the data points*)
+		Show[Plot[fitted, {x, 5^2, 35^2}, 
+		AxesLabel -> {"\!\(\*SuperscriptBox[\(x\), \
+			\(2\)]\)/\!\(\*SuperscriptBox[\(cm\), \(2\)]\)", 
+			"\!\(\*SuperscriptBox[\(v\), \
+			\(2\)]\)/(cm/s\!\(\*SuperscriptBox[\()\), \(2\)]\)"}, 
+		PlotStyle -> Red, PlotLabel -> "速度与位移的关系"], 
+		ListPlot[data, PlotStyle -> Blue]]
+	\end{lstlisting}
+
+	\subsection{图\ref{fig:v_max^2-A^2}}
+	\begin{lstlisting}
+		ClearAll["Global`*"]
+		
+		(*Define the data*)
+		data = {{10^2, 38.52^2}, {15^2, 56.68^2}, {20^2, 76.67^2}, {25^2, 
+				96.15^2}, {30^2, 114.20^2}};
+		
+		(*Perform the linear fit using LinearModelFit*)
+		lm = LinearModelFit[data, x, x];
+		
+		(*Extract the fitted function*)
+		fitted = lm[x];
+		
+		(*Extract the slope and intercept*)
+		{intercept, slope} = lm["BestFitParameters"];
+		
+		(*Extract the R-squared value*)
+		rsquared = lm["RSquared"];
+		
+		(*Print the slope,intercept,and R-squared value*)
+		Print["Slope: ", slope];
+		Print["Intercept: ", intercept];
+		Print["R-squared value: ", rsquared];
+		
+		(*Plot the fitted function and the data points*)
+		Show[Plot[fitted, {x, 5^2, 32^2}, 
+		AxesLabel -> {"\!\(\*SuperscriptBox[\(A\), \
+			\(2\)]\)/\!\(\*SuperscriptBox[\(cm\), \(2\)]\)", 
+			"\!\(\*SuperscriptBox[SubscriptBox[\(v\), \(max\)], \
+			\(2\)]\)/(cm/s\!\(\*SuperscriptBox[\()\), \(2\)]\)"}, 
+		PlotStyle -> Red, PlotLabel -> "最大速度与振幅的关系"], 
+		ListPlot[data, PlotStyle -> Blue]]
+	\end{lstlisting}
+	
+	\subsection{图\ref{fig:v3}}
+	\begin{lstlisting}
+		ClearAll["Global`*"]
+		
+		(*Define the data*)
+		data = {{1, 0.539}, {3, 0.547}, {5, 0.547}, {10, 0.558}};
+		
+		(*Perform the linear fit using LinearModelFit*)
+		lm = LinearModelFit[data, x, x];
+		
+		(*Extract the fitted function*)
+		fitted = lm[x];
+		
+		(*Extract the slope and intercept*)
+		{intercept, slope} = lm["BestFitParameters"];
+		
+		(*Extract the R-squared value*)
+		rsquared = lm["RSquared"];
+		
+		(*Print the slope,intercept,and R-squared value*)
+		Print["Slope: ", slope];
+		Print["Intercept: ", intercept];
+		Print["R-squared value: ", rsquared];
+		
+		(*Plot the fitted function and the data points*)
+		Show[Plot[fitted, {x, 0, 11}, 
+		AxesLabel -> {"挡光片宽度 \!\(\*TemplateBox[<|\"boxes\" -> FormBox[\n\
+			RowBox[{\"\[CapitalDelta]\", \nStyleBox[\"s\", \"TI\"]}], \
+			TraditionalForm], \"errors\" -> {}, \"input\" -> \"\\\\Delta s\", \
+			\"state\" -> \"Boxes\"|>,\n\"TeXAssistantTemplate\"]\)/cm", 
+			"平均速度 v (m/s)"}, PlotStyle -> Red, 
+		PlotLabel -> 
+		"\!\(\*TemplateBox[<|\"boxes\" -> FormBox[\nRowBox[{\n\
+			OverscriptBox[\nStyleBox[\"v\", \"TI\"], \"_\"], \"-\", \"\
+			\[CapitalDelta]\", \nStyleBox[\"s\", \"TI\"]}], TraditionalForm], \
+		\"errors\" -> {}, \"input\" -> \"\\\\overline{v}-\\\\Delta s\", \
+		\"state\" -> \"Boxes\"|>,\n\"TeXAssistantTemplate\"]\) 图"], 
+		ListPlot[data, PlotStyle -> Blue]]
+	\end{lstlisting}
+
+
+	\section{原始数据}
+	\includepdf[page=1-3]{原始数据.pdf}
+\end{document}
