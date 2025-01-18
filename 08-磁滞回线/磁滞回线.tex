@@ -1,0 +1,727 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper]{geometry}
+\geometry{left=2.0cm,right=2.0cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage{ctex} % 支持中文的LaTeX宏包
+\usepackage{amsmath,amsfonts,graphicx,amssymb,bm,amsthm,mathrsfs,mathtools,breqn} % 数学公式和符号的宏包集合
+\usepackage{algorithm,algorithmicx} % 算法和伪代码的宏包
+\usepackage[noend]{algpseudocode} % 算法和伪代码的宏包
+\usepackage{fancyhdr} % 自定义页眉页脚的宏包
+\usepackage[framemethod=TikZ]{mdframed} % 创建带边框的框架的宏包
+\usepackage{fontspec} % 字体设置的宏包
+\setmainfont{Times New Roman} % Set the main font to Times New Roman
+\usepackage{adjustbox} % 调整盒子大小的宏包
+\usepackage{fontsize} % 设置字体大小的宏包
+\usepackage{tikz,xcolor} % 绘制图形和使用颜色的宏包
+\usepackage{multicol} % 多栏排版的宏包
+\usepackage{multirow} % 表格中合并单元格的宏包
+\usepackage{pdfpages} % 插入PDF文件的宏包
+\RequirePackage{listings} % 在文档中插入源代码的宏包
+\RequirePackage{xcolor} % 定义和使用颜色的宏包
+\usepackage{wrapfig} % 文字绕排图片的宏包
+\usepackage{bigstrut,multirow,rotating} % 支持在表格中使用特殊命令的宏包
+\usepackage{booktabs} % 创建美观的表格的宏包
+\usepackage{circuitikz} % 绘制电路图的宏包
+\usepackage{float} % Add this in the preamble
+\usepackage{array}
+\usepackage{subcaption}
+\usepackage{physics}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{siunitx}
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{
+	frame=tb,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	framerule=1pt,
+	rulecolor=\color{gray!35},
+	backgroundcolor=\color{gray!5},
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3,
+}
+
+% 轻松引用, 可以用\cref{}指令直接引用, 自动加前缀. 
+% 例: 图片label为fig:1
+% \cref{fig:1} => Figure.1
+% \ref{fig:1}  => 1
+\usepackage[capitalize]{cleveref}
+% \crefname{section}{Sec.}{Secs.}
+\Crefname{section}{Section}{Sections}
+\Crefname{table}{Table}{Tables}
+\crefname{table}{Table.}{Tabs.}
+
+\setmainfont{Times New Roman}
+
+
+
+
+
+
+%改这里可以修改实验报告表头的信息
+\newcommand{\experiName}{磁滞回线}
+\newcommand{\supervisor}{朱中柱}
+\newcommand{\name}{徐博涵}
+\newcommand{\studentNum}{2023K8009908004}
+\newcommand{\class}{1}
+\newcommand{\group}{04}
+\newcommand{\seat}{6}
+\newcommand{\dateYear}{2024}
+\newcommand{\dateMonth}{11}
+\newcommand{\dateDay}{27}
+\newcommand{\room}{713}
+\newcommand{\others}{$\square$}
+%% 如果是调课、补课, 改为: $\square$\hspace{-1em}$\surd$
+%% 否则, 请用: $\square$
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{document}
+	
+	%若需在页眉部分加入内容, 可以在这里输入
+	% \pagestyle{fancy}
+	% \lhead{\kaishu 测试}
+	% \chead{}
+	% \rhead{}
+	
+	\begin{center}
+		\LARGE \bf 《\, 基\, 础\, 物\, 理\, 实\, 验\, 》\, 实\, 验\, 报\, 告
+	\end{center}
+	
+	\begin{center}
+		\noindent \emph{实验名称}\underline{\makebox[25em][c]{\experiName}}
+		\emph{指导教师}\underline{\makebox[8em][c]{\supervisor}}\\
+		\emph{姓名}\underline{\makebox[6em][c]{\name}} 
+		% 如果名字比较长, 可以修改box的长度"6em"
+		\emph{学号}\underline{\makebox[10em][c]{\studentNum}}
+		\emph{分班分组及座号} \underline{\makebox[5em][c]{\class \ -\ \group \ -\ \seat }\emph{号}} （\emph{例}:\, 1\,-\,04\,-\,5\emph{号}）\\
+		\emph{实验日期} \underline{\makebox[3em][c]{\dateYear}}\emph{年}
+		\underline{\makebox[2em][c]{\dateMonth}}\emph{月}
+		\underline{\makebox[2em][c]{\dateDay}}\emph{日}
+		\emph{实验地点}\underline{{\makebox[4em][c]\room}}
+		\emph{调课/补课} \underline{\makebox[3em][c]{\others\ 是}}
+		\emph{成绩评定} \underline{\hspace{5em}}
+		{\noindent}
+		\rule[8pt]{17cm}{0.2em}
+	\end{center}	
+	
+	\section{实验内容}
+	\subsection{第一部分：用示波器观测动态磁滞回线}
+	
+	1.观测样品1（铁氧体）的饱和动态磁滞回线。
+	
+	（1）测量频率$f=100\text{Hz}$时的饱和磁滞回线，取$R_1=2.0\Omega,R_2=50k\Omega,C=10.0\mu F$.
+	
+	（2）固定信号源幅度，观测并记录饱和磁滞回线随频率的变化规律。
+	
+	保持$R_1,R_2,C$不变，测量并比较$f=95\text{Hz}$和$f=150\text{Hz}$时的$B_r,H_c$.
+	
+	（3）在频率$f=50\text{Hz}$的情况下，比较不同积分常量取值对李萨如图形的影响。固定励磁电流幅度$I_m=0.1\text{A},R_1=20\Omega$，改变积分常量$R_2C$。调节分别为$0.01\text{s},0.05\text{s},0.5\text{s}$，观察并绘出不同积分常量下李萨如图形的图。
+	
+	
+	\medskip
+	2.测量样品1（铁氧体）的动态磁滞回线。
+	
+	在$f=100\text{Hz}$时，取$R_1=2.0\Omega,R_2=50k\Omega,C=10.0\mu F$，测量20个顶点。
+	
+	
+	\medskip
+	3.观察不同频率下样品2（硅钢）的动态磁滞回线。
+	
+	参数调至$R_1=2.0\Omega,R_2=50k\Omega,C=10.0\mu F$，在给定交变磁场幅度$H_m=400\text{A}/\text{m}$下，测量三种频率的$B_m,B_r,H_c$.
+	
+	
+	
+	\medskip
+	4.测量样品1（铁氧体）在不同直流偏置磁场下的可逆磁导率。
+	
+	在$f=100\text{Hz}$时，取$R_1=2.0\Omega,R_2=20k\Omega,C=10.0\mu F$，直流偏置磁场从$0$到$H_s$单调递增，测量10组回线小线段的斜率。
+	
+	
+	
+	
+	\subsection{第二部分：用霍尔传感器测量铁磁材料（准）静态磁滞回线}
+	
+	（1）将霍尔传感器位于磁场均匀区中央(需要自行测量均匀范围)。退磁后取20个采样点，测量样品的起始磁化曲线。
+	
+	（2）测量模具钢的磁滞回线：（需要进行充分地磁锻炼）将电流$I_m$减少到0，
+	再反向增大到$-I_m$再减回0，再反向增大到$I_m$，重复多次直到记录到足够的数据点即可。
+	
+	
+	
+	
+	\section{实验结果与数据处理}
+	
+	\subsection{计算准备}
+	振幅磁导率：
+	\begin{equation*}
+		\mu_m = \frac{B_m}{\mu_0H_m}
+	\end{equation*}
+	
+	起始磁导率：
+	\begin{equation*}
+		\mu_i = \lim_{H\rightarrow 0}\frac{B}{\mu_{0}H}
+	\end{equation*}
+	
+	（直流偏置磁场下的）可逆磁导率：
+	\begin{equation*}
+		\mu_R = \lim_{H\rightarrow 0}\frac{\Delta B}{\mu_{0}\Delta H}
+	\end{equation*}
+	
+	$H$和$B$的测量原理为：
+	\begin{gather*}
+		H = \frac{N_1}{l R_1}u_{R_1}\\
+		B = \frac{R_2 C}{N_2 S}u_C
+	\end{gather*}
+	
+	磁化场的磁场强度$H$：
+	\begin{equation*}
+		H = \frac{N}{\overline{l}}I
+	\end{equation*}
+	
+	$H$的修正：
+	\begin{equation*}
+		H_{cor} = \frac{N}{\overline{l}}I-\frac{l_g}{\mu_0\overline{l}}B
+	\end{equation*}
+	其中 $N$ 为磁化线圈的匝数， $\overline{l}$ 为样品平均磁路长度，$l_g$为间隙宽度。
+	
+	\subsection{第一部分}
+	
+	\subsubsection{观测样品 1（铁氧体）的饱和动态磁滞回线}
+	\begin{enumerate}
+		\item 取$R_1=2.0\ \Omega , \ R_2=50\ \mathrm{k}\Omega ,\ C=10.0\mu \mathrm{F}$，测量两个保和点，正负半轴的矫顽力$H_c$和剩磁$B_r$，下方字母前的$\pm$均代表其位于x,y轴的正负，不是数值本身的正负。
+		
+		饱和点原始数据：
+		\begin{gather*}
+			+U_{HS}=204\ \mathrm{mV}  \qquad +U_{BS}=20.0\ \mathrm{mV} \\
+			-U_{HS}=-192\ \mathrm{mV}  \qquad -U_{BS}=-20.0\ \mathrm{mV}
+		\end{gather*}
+		
+		矫顽力原始数据：
+		\[+U_{Hc}=9.20\ \mathrm{mV} \qquad -U_{Hc}=-7.60\ \mathrm{mV}\]
+		
+		剩磁原始数据：
+		\[+U_{Br}=3.04\ \mathrm{mV} \qquad -U_{Br}=-4.40\ \mathrm{mV} \]
+		
+		代入计算公式：
+		\begin{gather*}
+			H = \frac{N_1}{l R_1}u_{R_1}\\
+			B = \frac{R_2 C}{N_2 S}u_C
+		\end{gather*}
+		
+		解得饱和点：
+		\begin{gather*}
+			+H_S=118\ \mathrm{A/m} \qquad +B_S=0.538\ \mathrm{T} \\
+			-H_S=-111\ \mathrm{A/m} \qquad -B_S=-0.538\ \mathrm{T}
+		\end{gather*}
+		
+		矫顽力：
+		\[+H_{c}=5.31\ \mathrm{A/m} \qquad -H_{c}=-4.38\ \mathrm{A/m}\]
+		
+		剩磁：
+		\[+B_{r}=0.082\ \mathrm{T} \qquad -B_{r}=-0.118\ \mathrm{T}\]
+		
+		
+		\item 保持$R_1, \ R_2, \ C$不变，测量f=95Hz以及f=150Hz时的$B_r$和$H_c$，此处均取坐标轴正向的数据记录测量:
+		\begin{center}
+			\noindent\begin{minipage}{0.49\columnwidth}
+				\begin{table}[H]\centering
+					%\renewcommand{\arraystretch}{1.5} % 调整行间距为 1.5 倍
+					%\setlength{\tabcolsep}{1.5mm} % 调整列间距
+					\caption{原始电压数据}
+					\begin{tabular}{cccccccccc}\toprule
+						$f$ (Hz) & $U_{B_r}$ (mV) & $U_{H_c} $ (mV)  \\
+						\midrule
+						95  &  3.44&   10.0\\
+						100 & 3.04 &   9.2\\
+						150 & 2.40 & 7.2 \\
+						\bottomrule
+					\end{tabular}
+				\end{table}
+			\end{minipage}\begin{minipage}{0.49\columnwidth}
+				\begin{table}[H]\centering
+					%\renewcommand{\arraystretch}{1.5} % 调整行间距为 1.5 倍
+					%\setlength{\tabcolsep}{1.5mm} % 调整列间距
+					\caption{不同频率时的 $B_r$ 和 $H_c$}
+					\begin{tabular}{cccccccccc}\toprule
+						$f$ (Hz) & $B_r$ (T) & $H_c \ (\mathrm{A\cdot m^{-1}})$  \\
+						\midrule
+						95  &  0.092 & 5.769  \\
+						100 & 0.082 & 5.308  \\
+						150 & 0.065& 4.154  \\
+						\bottomrule
+					\end{tabular}
+				\end{table}
+			\end{minipage}
+		\end{center}
+		Q：本实验观察到的变化规律，并分析变化的原因。\\
+		A：观察到样品的矫顽力$H_c$和剩磁$B_r$均随频率$f$的增加而减小。\\
+		\indent \qquad 可能因为材料内部磁矩的旋转跟不上外部的频率变化，因此在高频下磁矩没有“对齐”，导致剩磁$B_r$减小，进而使矫顽力$H_c$减小。在图像意义上：频率增大时，铁氧体涡流损耗变小，交变磁场磁化过程中的总能量损耗减小，而饱和磁滞回线所包围的面积正比于该损耗，故饱和磁滞回线所包围的面积减小。
+		
+		\item 改变积分常量 $R_2 C$，得到不同积分常量下的李萨如图形（动态磁滞回线），如下所示：
+		
+		\begin{figure}[H]
+			\centering
+			\begin{subfigure}{0.32\textwidth}
+				\includegraphics[width=\linewidth, height=5cm]{0.05s.jpg}
+				\caption{0.05s}
+			\end{subfigure}
+			\begin{subfigure}{0.32\textwidth}
+				\includegraphics[width=\linewidth, height=5cm]{0.1s.jpg}
+				\caption{0.1s}
+			\end{subfigure}
+			\begin{subfigure}{0.32\textwidth}
+				\includegraphics[width=\linewidth, height=5cm]{0.5s.jpg}
+				\caption{0.5s}
+			\end{subfigure}
+			\caption{修改积分常量后的李萨如图}
+			\label{fig:rc}
+		\end{figure}
+		
+		观察图像发现，$R_2 C=0.5\ \mathrm{s}$时的李萨如图还属于正常的图像，$R_2 C=0.1\ \mathrm{s}$时的李萨如图曲线已经出现一个交点，$R_2 C=0.05\ \mathrm{s}$时的李萨如图曲线出现两个交点，变形最严重。
+		
+		这是因为公式$B = \frac{R_2 C}{N_2 S}u_C$的前提为$R_2 C \gg T$，而当$R_2 C=0.1\ \mathrm{s}, \ 0.05\ \mathrm{s}$时这个前提假设已经不再成立，故图像出现变形。
+		
+		真实的磁滞回线图像不受影响。
+		
+	\end{enumerate} 
+	
+	
+	\subsubsection{测量样品 1（铁氧体）的动态磁化曲线}
+	本小节的参数设置与上一小节相同，测量结果见表\ref{1.2电压}，代入公式后得表\ref{1.2换算后}。
+	\begin{center}
+		\noindent\begin{minipage}{0.25\columnwidth}
+			\begin{table}[H]\centering
+				%\renewcommand{\arraystretch}{1.5} % 调整行间距为 1.5 倍
+				%\setlength{\tabcolsep}{1.5mm} % 调整列间距
+				\caption{原始电压数据点}
+				\label{1.2电压}
+				\begin{tabular}{cc}\toprule
+					$\Delta u_{R_1}$ (mV) & $\Delta u_{C}$ (mV) \\
+					\midrule
+					18.8    & 5.68 \\
+					40.0    & 13.4 \\
+					59.6    & 20.6 \\
+					78.4    & 25.0 \\
+					100     & 28.8 \\
+					120     & 31.2 \\
+					141     & 32.8 \\
+					158     & 34.0 \\
+					179     & 35.6 \\
+					198     & 36.0 \\
+					220     & 36.8 \\
+					246     & 37.2 \\
+					260     & 37.6 \\
+					278     & 37.6 \\
+					300     & 38.4 \\
+					324     & 38.4 \\
+					348     & 39.2 \\
+					368     & 39.2 \\
+					386     & 39.6 \\
+					452     & 39.6 \\
+					\bottomrule
+				\end{tabular}
+			\end{table}
+		\end{minipage}\begin{minipage}{0.4\columnwidth}
+			\begin{table}[H]\centering
+				%\renewcommand{\arraystretch}{1.5} % 调整行间距为 1.5 倍
+				%\setlength{\tabcolsep}{1.5mm} % 调整列间距
+				\caption{换算后的磁化曲线与振幅磁导率}
+				\label{1.2换算后}
+				\begin{tabular}{ccc}\toprule
+					$H_m$ $\mathrm{(A\cdot m^{-1})}$ & $B_m$ (T) & $\mu_m$ (1) \\
+					\midrule
+					10.8462  & 0.152688 & 11202.6 \\
+					23.0769  & 0.360215 & 12421.5 \\
+					34.3846  & 0.553763 & 12815.9 \\
+					45.2308  & 0.672043 & 11823.7 \\
+					57.6923  & 0.774194 & 10678.8 \\
+					69.2308  & 0.838710 & 9640.57 \\
+					81.3462  & 0.881720 & 8625.49 \\
+					91.1538  & 0.913978 & 7979.05 \\
+					103.269  & 0.956989 & 7374.39 \\
+					114.231  & 0.967742 & 6741.66 \\
+					126.923  & 0.989247 & 6202.32 \\
+					141.923  & 1.00000 & 5607.08 \\
+					150.000  & 1.01075  & 5362.21 \\
+					160.385  & 1.01075  & 5015.02 \\
+					173.077  & 1.03226  & 4746.13 \\
+					186.923  & 1.03226  & 4394.56 \\
+					200.769  & 1.05376  & 4176.73 \\
+					212.308  & 1.05376  & 3949.73 \\
+					222.692  & 1.06452  & 3803.97 \\
+					260.769  & 1.06452  & 3248.52 \\
+					\bottomrule
+				\end{tabular}
+			\end{table}
+		\end{minipage}
+	\end{center}
+	由表\ref{1.2电压}及表\ref{1.2换算后}得图\ref{fig:c}：
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{动态磁化曲线.png}  % Set height to 4cm, maintain aspect ratio
+			\caption{动态磁化曲线}
+			\label{fig:动态磁化曲线}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=5cm]{mu-H.png}  % Set height to 4cm, maintain aspect ratio
+			\caption{$\mu_m-H_m$曲线}
+			\label{fig:mu-H}
+		\end{subfigure}
+		\caption{动态磁化曲线和$\mu_m-H_m$曲线}
+		\label{fig:c}
+	\end{figure}
+	对磁化曲线，我们采用函数 $y = f(x) = a \arctan (b x + c) + d$ 进行拟合，其中 $a, b, c, d$ 为待定常数，拟合结果为：
+	\[a \rightarrow -0.558636,\ b \rightarrow -0.0321547,\ c \rightarrow 0.551862,\ d \rightarrow 0.262619\]
+	
+	对于$\mu_m-H_m$曲线，未找到合适的函数进行拟合。
+	
+	假设$\mu_m-H_m$曲线的前两组数据线性，计算起始磁导率$\mu_i$
+	\[\mu_i=\lim_{H_m \to 0} \mu_m = 10121.5\]
+	
+	
+	
+	
+	\subsubsection{观察不同频率下样品 2（硅钢）的动态磁滞回线}
+	取$R_1=2.0\ \Omega , \ R_2=50\ \mathrm{k}\Omega ,\ C=10.0\mu \mathrm{F}$，给定交变磁场幅度$U_{Hm}=400\ \mathrm{mV}$下，测量三种频率下的$B_m,\ B_r,\ H_c$。
+	\begin{center}
+		\noindent\begin{minipage}{0.49\columnwidth}
+			\begin{table}[H]\centering
+				%\renewcommand{\arraystretch}{1.5} % 调整行间距为 1.5 倍
+				%\setlength{\tabcolsep}{1.5mm} % 调整列间距
+				\caption{原始电压数据}
+				\begin{tabular}{cccccccccc}\toprule
+					$f$ (Hz) & $U_{B_m}$ (mV) & $U_{B_r}$ (mV) & $U_{H_c} $ (mV)  \\
+					\midrule
+					20  &  66.4& 18.4 &   96\\
+					40 & 68.0 &20.8 &   112\\
+					60 & 43.2 &16.0 & 104 \\
+					\bottomrule
+				\end{tabular}
+			\end{table}
+		\end{minipage}\begin{minipage}{0.49\columnwidth}
+			\begin{table}[H]\centering
+				%\renewcommand{\arraystretch}{1.5} % 调整行间距为 1.5 倍
+				%\setlength{\tabcolsep}{1.5mm} % 调整列间距
+				\caption{不同频率时的 $B_r$ 和 $H_c$}
+				\begin{tabular}{cccccccccc}\toprule
+					$f$ (Hz) &$B_m$(T) &$B_r$ (T) & $H_c \ (\mathrm{A\cdot m^{-1}})$  \\
+					\midrule
+					20  &  1.844 & 0.511 &   96\\
+					40 & 1.889 &0.578&   112\\
+					60 & 1.200 &0.444 & 104 \\
+					\bottomrule
+				\end{tabular}
+			\end{table}
+		\end{minipage}
+	\end{center}
+	
+	发现在$f=40\ \mathrm{Hz}$时$B_m,\ B_r,\ H_c$均取最大值，这和理论预期并不相同，猜测可能在测量时使用了错误的标度(示波器上一格的长度)，导致整体乘上了一个大于1的系数，使其成为最大值。
+	
+	
+	
+	
+	\subsubsection{测量样品 1（铁氧体）在不同直流偏置磁场下的可逆磁导率}
+	取$f=100\ \mathrm{Hz}, \ R_1=2.0\ \Omega , \ R_2=20\ \mathrm{k}\Omega ,\ C=2.0\mu \mathrm{F}$。
+	
+	\begin{center}
+		\noindent\begin{minipage}{0.35\columnwidth}
+			\begin{table}[H]\centering
+				%\renewcommand{\arraystretch}{1.5} % 调整行间距为 1.5 倍
+				%\setlength{\tabcolsep}{1.5mm} % 调整列间距
+				\caption{原始电压数据点}
+				\label{1.4电压}
+				\begin{tabular}{ccc} \toprule \( I \) (A) & \( \Delta u_{R_1} \) (mV) & \( \Delta u_C \) (mV) \\ \midrule 0.01 & 11.8 & 13.2 \\ 0.02 & 12.0 & 18.4 \\ 0.03 & 8.00 & 19.6 \\ 0.04 & 5.40 & 19.6 \\ 0.05 & 5.20 & 27.2 \\ 0.06 & 3.20 & 22.0 \\ 0.07 & 2.40 & 24.0 \\ 0.08 & 3.00 & 46.0 \\ 0.09 & 3.00 & 56.0 \\ 0.1 & 1.28 & 31.2 \\ \bottomrule \end{tabular}
+			\end{table}
+		\end{minipage}\begin{minipage}{0.35\columnwidth}
+			\begin{table}[H]\centering
+				%\renewcommand{\arraystretch}{1.5} % 调整行间距为 1.5 倍
+				%\setlength{\tabcolsep}{1.5mm} % 调整列间距
+				\caption{可逆磁导率随偏置磁场的变化}
+				\label{1.4换算后}
+				\begin{tabular}{cc}\toprule
+					$H$ $\mathrm{(A\cdot m^{-1})}$ & $\mu_R$ (1) \\
+					\midrule
+					11.5385 & 1580.83 \\
+					23.0769 & 1153.30 \\
+					34.6154 & 721.791 \\
+					46.1538 & 487.209 \\
+					57.6923 & 338.074 \\
+					69.2308 & 257.220 \\
+					80.7692 & 176.839 \\
+					92.3077 & 115.330 \\
+					103.846 & 94.7351 \\
+					115.385 & 72.5493 \\
+					\bottomrule
+				\end{tabular}
+			\end{table}
+		\end{minipage}
+	\end{center}
+	
+	由表\ref{1.4换算后}可得图\ref{fig:mui-H}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=5cm]{mui-H.png}
+		\caption{$\mu_i-H$图}
+		\label{fig:mui-H}
+	\end{figure}
+	
+	其中拟合曲线为$y=a e^{b x}$，拟合结果为：
+	\[a \to 2330.01, b \to -0.0326773\]
+	
+	图中曲线说明可逆磁导率随着$H$的增加趋向于0，这和理论预测相符合。
+	
+	
+	\subsection{第二部分}
+	
+	\subsubsection{测量模具钢的（准）静态起始磁化曲线}
+	计算H和修正H的公式为：
+	\begin{equation*}
+		H = \frac{N}{l_2}\cdot I, \quad H_{\text{re}} = \frac{N}{l_2}\cdot I - \frac{l_g}{\mu_0 l_2}\cdot B 
+	\end{equation*}
+	其中
+	\[l_2 = 0.240 \ \mathrm{m},\ \ l_g = 2 \times 10^{-3} \ \mathrm{m},\ \ N = 2000\]
+	
+	实验数据为：
+	\begin{table}[H]\centering
+		%\renewcommand{\arraystretch}{1.5} % 调整行间距为 1.5 倍
+		%\setlength{\tabcolsep}{1.5mm} % 调整列间距
+		\caption{霍尔传感器测量样品的起始磁化曲线}
+		\label{2.1表}
+		\begin{tabular}{cccccccccc}\toprule
+			$I$ (mA) & $B$ (mT) & $H \ \mathrm{(A\cdot m^{-1})}$ &  $H_{\text{re}} \ \mathrm{(A\cdot m^{-1})}$   \\
+			\midrule
+			50.0     & 6.3     & 416.667                         & 374.888                                 \\
+			101.8    & 12.7    & 848.333                         & 764.114                                 \\
+			150.6    & 20.9    & 1255.                           & 1116.4                                  \\
+			203.7    & 39.1    & 1697.5                          & 1438.21                                 \\
+			250.2    & 55.0    & 2085.                           & 1720.27                                 \\
+			300.1    & 71.4    & 2500.83                         & 2027.35                                 \\
+			351.0    & 87.8    & 2925.                           & 2342.76                                 \\
+			401.1    & 104.4   & 3342.5                          & 2650.18                                 \\
+			451.1    & 120.5   & 3759.17                         & 2960.08                                 \\
+			500.9    & 135.6   & 4174.17                         & 3274.94                                 \\
+			551.5    & 150.1   & 4595.83                         & 3600.45                                 \\
+			609.01   & 165.3   & 5075.08                         & 3978.9                                  \\
+			645.8    & 173.6   & 5381.67                         & 4230.45                                 \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	
+	由表\ref{2.1表}得图\ref{fig:B-H}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=5cm]{B-H.png}
+		\caption{B-H图}
+		\label{fig:B-H}
+	\end{figure}
+	
+	由图可见，初始磁化可视为线性。
+	
+	\subsubsection{测量模具钢的磁滞回线}
+	\begin{table}[H]\centering
+		%\renewcommand{\arraystretch}{1.5} % 调整行间距为 1.5 倍
+		%\setlength{\tabcolsep}{1.5mm} % 调整列间距
+		\caption{霍尔传感器测量样品的磁滞回线}
+		\label{2.2表}
+		\begin{tabular}{cccccccccc}\toprule
+			$I$ (mA) & $B$ (mT) & $H \ \mathrm{(A\cdot m^{-1})}$ &  $H_{\text{re}} \ \mathrm{(A\cdot m^{-1})}$   \\
+			\midrule
+			645.7    & 186.4   & 5380.83                        & 4144.73                                 \\
+			597.7    & 183.3   & 4980.83                        & 3765.29                                 \\
+			550.0    & 179.8   & 4583.33                        & 3391.00                                 \\
+			501.8    & 175.8   & 4181.67                        & 3015.86                                 \\
+			448.9    & 170.4   & 3740.83                        & 2610.83                                 \\
+			399.0    & 164.1   & 3325.00                        & 2236.78                                 \\
+			351.3    & 156.6   & 2927.50                        & 1889.01                                 \\
+			298.8    & 146.0   & 2490.00                        & 1521.81                                 \\
+			252.7    & 134.4   & 2105.83                        & 1214.57                                 \\
+			197.8    & 117.9   & 1648.33                        & 866.485                                 \\
+			149.6    & 101.4   & 1246.67                        & 574.237                                 \\
+			97.0     & 82.0    & 808.333                        & 264.554                                 \\
+			50.9     & 64.1    & 424.167                        & -0.909661                                \\
+			0.0      & 43.6    & 0.000                          & -289.131                                 \\
+			-47.9    & 23.8    & -399.167                       & -556.995                                 \\
+			-100.8   & 1.6     & -840.000                       & -850.61                                  \\
+			-151.3   & -19.7   & -1260.83                       & -1130.19                                 \\
+			-199.6   & -40.2   & -1663.33                       & -1396.75                                 \\
+			-250.4   & -61.2   & -2086.67                       & -1680.82                                 \\
+			-298.6   & -80.7   & -2488.33                       & -1953.17                                 \\
+			-351.5   & -101.5  & -2929.17                       & -2256.07                                 \\
+			-402.7   & -121.0  & -3355.83                       & -2553.43                                 \\
+			-450.2   & -138.2  & -3751.67                       & -2835.20                                 \\
+			-499.1   & -154.9  & -4159.17                       & -3131.95                                 \\
+			-550.7   & -170.8  & -4589.17                       & -3456.51                                 \\
+			-599.6   & -184.3  & -4996.67                       & -3774.49                                 \\
+			-646.1   & -195.4  & -5384.17                       & -4088.38                                 \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	由表\ref{2.2表}得图\ref{fig:B-H1}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=3cm]{B-H1.png}
+		\caption{霍尔传感器测量样品的磁滞回线}
+		\label{fig:B-H1}
+	\end{figure}
+	很遗憾，这个实验我做错了，最后只测量了半支磁滞回线的数据。
+	
+	\section{思考题}
+	
+	\subsection{铁磁材料的动态磁滞回线与（准）静态磁滞回线在概念上有什么区别？铁磁材料动态磁滞回线的形状和面积受那些因素影响？}
+	铁磁材料的动态磁滞回线与（准）静态磁滞回线在概念上的差别主要体现在测量条件和响应特性上。静态磁滞回线是在缓慢变化的磁场下测量的，通常磁场变化速率较低，材料有足够的时间达到平衡状态。它反映了材料在平衡状态下的磁化行为，其形状主要由材料的内禀特性决定。而动态磁滞回线是在快速变化的磁场下测量的，磁场变化速率较高，材料的响应会滞后于磁场的变化。动态磁滞回线反映了材料在非平衡状态下的磁化行为，其形状不仅受材料本身特性的影响，还受到磁场变化速率和材料动态响应特性的影响。
+	
+	动态磁滞回线的形状和面积受多种因素的影响。首先是磁场频率。频率越高，材料的磁化响应滞后现象越明显，回线面积通常会增大。其次，材料本身的特性也对动态磁滞回线有重要影响。例如，高磁导率的材料在动态条件下回线面积较大，而矫顽力较大的材料回线较宽，面积也较大。此外，材料的磁化历史也会对动态磁滞回线产生影响。
+	
+	\subsection{什么叫做基本磁化曲线？它和起始磁化曲线间有何区别？}
+	基本磁化曲线是在动态磁滞回线中由$B_m$以及$H_m$连成的曲线；起始磁化曲线是在材料被退磁后，当H缓慢增加直至饱和过程中的$B-H$曲线。
+	
+	基本磁化曲线是由多族曲线的顶点连成的曲线，起始磁化曲线是一条完整的曲线。但是，由于H较小时曲线的可逆性，基本磁化曲线与初始磁化曲线在H较小时近似重合。
+	
+	\subsection{铁氧体和硅钢材料的动态磁化特性各有什么特点？}
+	由实验数据分析可得：
+	\begin{itemize}
+		\item 从剩磁来看，在低频情况下，铁氧体的剩磁较低，而硅钢的剩磁较高
+		\item 从矫顽力来看，铁氧体的矫顽力远小于硅钢的矫顽力
+		\item 从饱和磁化强度来看，两者接近
+	\end{itemize}
+
+	\subsection{动态磁滞回线测量实验中，电路参量应怎样设置才能保证$u_{R_1}-u_C$所形成的李萨如图形正确反映材料动态磁滞回线的形状？}
+	需要使积分常量$R_2 C \gg T$，其中T为外磁场周期
+	
+	\subsection{准静态磁滞回线测量实验中，为什么要对样品进行磁锻炼才能获得稳定的饱和磁滞回线？}
+	磁锻炼有如下作用：
+	\begin{itemize}
+		\item 样品在制备或存放过程中可能经历了不同的磁场环境，导致其内部磁畴结构处于一种非平衡状态。通过磁锻炼，即多次循环施加正负饱和磁场，可以消除样品之前的磁化历史。
+		\item 铁磁材料在初次磁化时，磁化过程可能包含较多的不可逆变化，导致磁滞回线的形状和面积不稳定。通过多次磁锻炼，样品会逐渐达到一个稳定的磁化状态，此时磁滞回线的形状和面积不再随循环次数发生变化，从而获得稳定的饱和磁滞回线。
+		\item 在实验中，如果样品的磁化状态不稳定，每次测量得到的磁滞回线可能会有所不同，导致实验结果不可重复。磁锻炼可以使样品的磁化行为趋于一致，从而减少测量误差，提高实验的可重复性和准确性
+	\end{itemize}
+	
+	\section{实验感想}
+	这个实验我完成的非常愉快，朱老师很耐心的解答了我的问题，美中不足的是最后一个实验出错。但是，通过观察磁滞回线，我了解了不同类型的磁滞回线：动态磁滞回线与（准）静态磁滞回线，对教科书上的内容有了更加深刻的理解。在处理数据时，我也对软件的使用更加熟练。
+	
+	\newpage
+	\noindent {\LARGE 附录}
+	
+	\appendix
+	\section{mathematica代码}
+	\subsection{$\mu_m-H_m$}
+	\begin{lstlisting}
+		H1[x_] := 150/(0.13*2) x;
+		B1[x_] := (50000*10^-5)/(150*1.24*10^-4) x;
+		t1 = {18.8, 40.0, 59.6, 78.4, 100, 120, 141, 158, 179, 198, 220, 246, 
+			260, 278, 300, 324, 348, 368, 386, 452};
+		t2 = {5.68, 13.4, 20.6, 25.0, 28.8, 31.2, 32.8, 34.0, 35.6, 36.0, 
+			36.8, 37.2, 37.6, 37.6, 38.4, 38.4, 39.2, 39.2, 39.6, 39.6};
+		t11 = Table[H1[x]*10^-3, {x, t1}];(*H*)
+		t21 = Table[B1[x]*10^-3, {x, t2}];(*B*)
+		f[x_, y_] := x/(y*4 Pi*10^-7);
+		t3 = MapThread[f, {t21, t11}] // N(*\mu*);
+		t4 = Map[{t11[[#]], t21[[#]]} &, Range[Length[t21]]];
+		fitted1 = FindFit[t4, a*ArcTan[b x + c] + d, {a, b, c, d}, x]
+		g[x_] := a*ArcTan[b x + c] + d /. fitted1;
+		Show[Plot[g[x], {x, 0, 300}, PlotStyle -> Red, 
+		AxesLabel -> {"\!\(\*TemplateBox[<|\"boxes\" -> FormBox[\n\
+			SubscriptBox[\nStyleBox[\"H\", \"TI\"], \nStyleBox[\"m\", \"TI\"]], \
+			TraditionalForm], \"errors\" -> {}, \"input\" -> \"H_m\", \"state\"\
+			-> \"Boxes\"|>,\n\"TeXAssistantTemplate\"]\)(A/m)", 
+			"\!\(\*TemplateBox[<|\"boxes\" -> FormBox[\nSubscriptBox[\n\
+			StyleBox[\"B\", \"TI\"], \nStyleBox[\"m\", \"TI\"]], \
+			TraditionalForm], \"errors\" -> {}, \"input\" -> \"B_m\", \"state\"\
+			-> \"Boxes\"|>,\n\"TeXAssistantTemplate\"]\)(T)"}, 
+		PlotLegends -> Placed[{"拟合曲线"}, {0.75, 0.6}], 
+		PlotLabel -> "动态磁化曲线"], 
+		ListPlot[t4, PlotLegends -> Placed[{"数据点"}, {0.75, 0.5}]]];
+		t5 = Map[{t11[[#]], t3[[#]]} &, Range[Length[t21]]]
+		Show[ListPlot[t5, Joined -> True, PlotStyle -> Red, 
+		AxesLabel -> {"\!\(\*TemplateBox[<|\"boxes\" -> FormBox[\n\
+			SubscriptBox[\nStyleBox[\"H\", \"TI\"], \nStyleBox[\"m\", \"TI\"]], \
+			TraditionalForm], \"errors\" -> {}, \"input\" -> \"H_m\", \"state\"\
+			-> \"Boxes\"|>,\n\"TeXAssistantTemplate\"]\)(A/m)", 
+			"\!\(\*TemplateBox[<|\"boxes\" -> FormBox[\n\
+			SubscriptBox[\"\[Mu]\", \nStyleBox[\"m\", \"TI\"]], TraditionalForm], \
+			\"errors\" -> {}, \"input\" -> \"\\\\mu_m\", \
+			\"state\" -> \"Boxes\"|>,\n\"TeXAssistantTemplate\"]\)"}, 
+		PlotLabel -> 
+		"\!\(\*TemplateBox[<|\"boxes\" -> FormBox[\nRowBox[{\n\
+			SubscriptBox[\"\[Mu]\", \nStyleBox[\"m\", \"TI\"]], \"-\", \n\
+			SubscriptBox[\nStyleBox[\"H\", \"TI\"], \nStyleBox[\"m\", \"TI\"]]}], \
+		TraditionalForm], \"errors\" -> {}, \"input\" -> \"\\\\mu_m-H_m\", \
+		\"state\" -> \"Boxes\"|>,\n\"TeXAssistantTemplate\"]\)曲线", 
+		PlotLegends -> Placed[{"连线"}, {0.75, 0.6}]], 
+		ListPlot[t5, PlotLegends -> Placed[{"数据点"}, {0.75, 0.6}]]]
+	\end{lstlisting}
+	
+	\subsection{$\mu_i-H$}
+	\begin{lstlisting}
+		H2[x_] := 150/(0.075*2) x;
+		B2[x_] := (50000*10^-5)/(150*1.2*10^-4) x;
+		H3[x_] := 150/(0.075*2) x;
+		B3[x_] := (20000*2*10^-6)/(150*1.2*10^-4) x;
+		p1 = {11.8, 12.0, 8.00, 5.40, 5.20, 3.20, 2.40, 3.00, 3.00, 1.28};
+		p2 = {13.2, 18.4, 19.6, 19.6, 27.2, 22.0, 24.0, 46.0, 56.0, 31.2};
+		p3 = Range[0.01, .1, .01];
+		p5 = Table[150/0.13*x, {x, p3}];(*H*)
+		k[x_, y_] := B3[x]/(H3[y]*4 Pi*10^-7);
+		p4 = MapThread[k, {p1, p2}](*\mu_i*);
+		p6 = Map[{p5[[#]], p4[[#]]} &, Range[Length[p5]]];
+		fitted3 = FindFit[p6, a*Exp[b x], {a, {b, -1}}, x]
+		f1[x_] := a*Exp[b x] /. fitted3;
+		Show[Plot[f1[x], {x, 0, 120}, PlotStyle -> Red, 
+		PlotLegends -> Placed[{"拟合曲线"}, {0.75, 0.6}], 
+		PlotLabel -> 
+		"\!\(\*TemplateBox[<|\"boxes\" -> FormBox[\nRowBox[{\n\
+			SubscriptBox[\"\[Mu]\", \nStyleBox[\"i\", \"TI\"]], \"-\", \n\
+			StyleBox[\"H\", \"TI\"]}], TraditionalForm], \"errors\" -> {}, \
+		\"input\" -> \"\\\\mu_i-H\", \"state\" -> \"Boxes\"|>,\n\
+		\"TeXAssistantTemplate\"]\)图", 
+		AxesLabel -> {"H (A/m)", 
+			"\!\(\*TemplateBox[<|\"boxes\" -> FormBox[\n\
+			SubscriptBox[\"\[Mu]\", \nStyleBox[\"i\", \"TI\"]], TraditionalForm], \
+			\"errors\" -> {}, \"input\" -> \"\\\\mu_i\", \
+			\"state\" -> \"Boxes\"|>,\n\"TeXAssistantTemplate\"]\)"}], 
+		ListPlot[p6, PlotLegends -> Placed[{"数据点"}, {0.75, 0.6}]]]
+	\end{lstlisting}
+	
+	\subsection{B-H}
+	\begin{lstlisting}
+		q1 = {50.0, 101.8, 150.6, 203.7, 250.2, 300.1, 351.0, 401.1, 451.1, 
+			500.9, 551.5, 609.01, 645.8};(*B*)
+		q2 = {6.3, 12.7, 20.9, 39.1, 55.0, 71.4, 87.8, 104.4, 120.5, 135.6, 
+			150.1, 165.3, 173.6};
+		Table[2/0.24 x, {x, q1}];
+		f2[x_, y_] := 2/0.24 x - (2*10^-6)/(4 Pi*10^-7*0.24) y;
+		q3 = MapThread[f2, {q1, q2}](*修正后H*);
+		q4 = Map[{q3[[#]], q1[[#]]} &, Range[Length[q1]]];
+		Show[ListPlot[q4, Joined -> True, PlotStyle -> Red, 
+		PlotLegends -> Placed[{"连线"}, {0.8, 0.4}], 
+		PlotLabel -> 
+		"\!\(\*TemplateBox[<|\"boxes\" -> FormBox[\nRowBox[{\nStyleBox[\"B\
+			\", \"TI\"], \"-\", \nStyleBox[\"H\", \"TI\"]}], TraditionalForm], \
+		\"errors\" -> {}, \"input\" -> \"B-H\", \"state\" -> \"Boxes\"|>,\n\
+		\"TeXAssistantTemplate\"]\)图", AxesLabel -> {"H (A/m)", "B/mT"}], 
+		ListPlot[q4, PlotLegends -> Placed[{"数据点"}, {0.8, 0.4}]]]
+	\end{lstlisting}
+	
+	\section{原始数据记录表}
+	\includepdf[page=1-4]{磁滞回线数据.pdf}
+\end{document}
