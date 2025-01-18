@@ -1,0 +1,631 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper]{geometry}
+\geometry{left=2.0cm,right=2.0cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage{ctex} % 支持中文的LaTeX宏包
+\usepackage{amsmath,amsfonts,graphicx,amssymb,bm,amsthm,mathrsfs,mathtools,breqn} % 数学公式和符号的宏包集合
+\usepackage{algorithm,algorithmicx} % 算法和伪代码的宏包
+\usepackage[noend]{algpseudocode} % 算法和伪代码的宏包
+\usepackage{fancyhdr} % 自定义页眉页脚的宏包
+\usepackage[framemethod=TikZ]{mdframed} % 创建带边框的框架的宏包
+\usepackage{fontspec} % 字体设置的宏包
+\setmainfont{Times New Roman} % Set the main font to Times New Roman
+\usepackage{adjustbox} % 调整盒子大小的宏包
+\usepackage{fontsize} % 设置字体大小的宏包
+\usepackage{tikz,xcolor} % 绘制图形和使用颜色的宏包
+\usepackage{multicol} % 多栏排版的宏包
+\usepackage{multirow} % 表格中合并单元格的宏包
+\usepackage{pdfpages} % 插入PDF文件的宏包
+\RequirePackage{listings} % 在文档中插入源代码的宏包
+\RequirePackage{xcolor} % 定义和使用颜色的宏包
+\usepackage{wrapfig} % 文字绕排图片的宏包
+\usepackage{bigstrut,multirow,rotating} % 支持在表格中使用特殊命令的宏包
+\usepackage{booktabs} % 创建美观的表格的宏包
+\usepackage{circuitikz} % 绘制电路图的宏包
+\usepackage{float} % Add this in the preamble
+\usepackage{array}
+\usepackage{subcaption}
+\usepackage{physics}
+\usepackage[dvipsnames]{xcolor}
+
+\newcommand{\unit}[1]{\,\mathrm{#1}}
+\newcommand{\cunit}[1]{\,#1} % \, represents a thin space
+\newcommand{\mm}{\unit{mm}}
+\newcommand{\Hz}{\unit{Hz}}
+\newcommand{\m}{\unit{m}}
+\newcommand{\g}{\unit{g}}
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{
+	frame=tb,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	framerule=1pt,
+	rulecolor=\color{gray!35},
+	backgroundcolor=\color{gray!5},
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3,
+}
+
+% 轻松引用, 可以用\cref{}指令直接引用, 自动加前缀. 
+% 例: 图片label为fig:1
+% \cref{fig:1} => Figure.1
+% \ref{fig:1}  => 1
+\usepackage[capitalize]{cleveref}
+% \crefname{section}{Sec.}{Secs.}
+\Crefname{section}{Section}{Sections}
+\Crefname{table}{Table}{Tables}
+\crefname{table}{Table.}{Tabs.}
+
+\setmainfont{Times New Roman}
+
+
+
+
+\renewcommand{\emph}[1]{\begin{kaishu}#1\end{kaishu}}
+
+%改这里可以修改实验报告表头的信息
+\newcommand{\experiName}{RLC电路的谐振与暂态过程}
+\newcommand{\supervisor}{李国强}
+\newcommand{\name}{徐博涵}
+\newcommand{\studentNum}{2023K8009908004}
+\newcommand{\class}{1}
+\newcommand{\group}{04}
+\newcommand{\seat}{6}
+\newcommand{\dateYear}{2024}
+\newcommand{\dateMonth}{11}
+\newcommand{\dateDay}{03}
+\newcommand{\room}{709}
+\newcommand{\others}{$\square$}
+%% 如果是调课、补课, 改为: $\square$\hspace{-1em}$\surd$
+%% 否则, 请用: $\square$
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\chapter}[2]{\begin{center}\bf\Large{第\,#1\,部分\quad #2}\end{center}}
+
+\begin{document}
+	
+	%若需在页眉部分加入内容, 可以在这里输入
+	% \pagestyle{fancy}
+	% \lhead{\kaishu 测试}
+	% \chead{}
+	% \rhead{}
+	
+	\begin{center}
+		\LARGE \bf 《\, 基\, 础\, 物\, 理\, 实\, 验\, 》\, 实\, 验\, 报\, 告
+	\end{center}
+	
+	\begin{center}
+		\noindent \emph{实验名称}\underline{\makebox[25em][c]{\experiName}}
+		\emph{指导教师}\underline{\makebox[8em][c]{\supervisor}}\\
+		\emph{姓名}\underline{\makebox[6em][c]{\name}} 
+		% 如果名字比较长, 可以修改box的长度"6em"
+		\emph{学号}\underline{\makebox[10em][c]{\studentNum}}
+		\emph{分班分组及座号} \underline{\makebox[5em][c]{\class \ -\ \group \ -\ \seat }\emph{号}} （\emph{例}:\, 1\,-\,04\,-\,5\emph{号}）\\
+		\emph{实验日期} \underline{\makebox[3em][c]{\dateYear}}\emph{年}
+		\underline{\makebox[2em][c]{\dateMonth}}\emph{月}
+		\underline{\makebox[2em][c]{\dateDay}}\emph{日}
+		\emph{实验地点}\underline{{\makebox[4em][c]\room}}
+		\emph{调课/补课} \underline{\makebox[3em][c]{\others\ 是}}
+		\emph{成绩评定} \underline{\hspace{5em}}
+		{\noindent}
+		\rule[8pt]{17cm}{0.2em}
+	\end{center}	
+	
+	
+	
+\section{实验目的}
+\begin{enumerate}
+	\item 研究 RLC 电路的谐振现象；
+	\item 了解 RLC 电路的相频特性和幅频特性；
+	\item 用数字存储示波器观察 RLC 串联电路的暂态过程，理解阻尼振动规律。
+\end{enumerate}
+
+
+
+\section{实验仪器}
+标准电感，标准电容，100$\Omega$标准电阻，电阻箱，电感箱，电容箱，函数发生器，示波器，数字多用表，导线等。
+
+
+
+\section{实验原理}
+\subsection{串联电路谐振}
+\begin{figure}[h]
+	\centering
+	\includegraphics[height=3.5cm]{串联电路.png}
+	\caption{串联电路图}
+	\label{fig:series circuit}
+\end{figure}
+在图\ref{fig:series circuit}中，可以计算出电路的总电流\(I\)和相位差$\varphi$为：
+\begin{equation}\label{equ1}
+	I=\frac{u}{\sqrt{R^2+(\omega L-1/\omega C)^2}}
+\end{equation}
+\begin{equation}
+	\varphi=\tan^{-1} \frac{\omega L-1/\omega C}{R}
+\end{equation}
+代入\(\omega=2\pi f\)，并对式\ref{equ1}求导，得
+\begin{equation}
+	\dv{I}{f}=\frac{2 \pi  u \left(\frac{1}{C^2}-16 \pi ^4 f^4 L^2\right)}{f^3 \left(\frac{\left(1-4 \pi ^2 C f^2 L\right)^2}{C^2 f^2}+4 \pi ^2 R^2\right)^{3/2}}
+\end{equation}
+\begin{equation}
+	\varphi=-\tan ^{-1} \left(\frac{\frac{1}{2 \pi  C f}-2 \pi  f L}{R}\right)
+\end{equation}
+注意到，当\(f=f_0=\frac{1}{2\pi\sqrt{CL}}\)时：\(	\dv{I}{f}=0\)，\(I\)取极大值；电路相位\(\varphi=0\)，即电路呈现电阻性。将这种特殊的电路状态称为串联电路谐振，此时的\(f_0=\frac{1}{2\pi\sqrt{CL}}\)称为谐振频率。
+
+另外，可以计算出此时的\(u_L\)和\(u_C\)与总电压\(u\)的比值：
+\begin{equation}
+	\frac{u_L}{u}=\frac{u_C}{u}=\frac{1}{R}\sqrt{\frac{L}{C}}
+\end{equation}
+定义这一比值为品质因数\(Q\)，即\(Q=\frac{1}{R}\sqrt{\frac{L}{C}}\)，联系电磁学课程可知，\(Q\)值代表着：
+\begin{enumerate}
+	\item 储能效率：\(Q\)值越大，储能效率越高；
+	\item 电压分配：谐振时，\(u_L=u_C=Qu\)，即电感和电容上的电压均为总电压的\(Q\)倍；
+	\item 频率选择性：\(Q\)值越大，\(I-f\)图中最大值的峰就越尖锐，因此频率选择性就越好。
+\end{enumerate}
+
+\subsection{并联电路谐振}
+\begin{figure}[h]
+	\centering
+	\includegraphics[height=3.5cm]{并联电路.png}
+	\caption{并联电路图}
+	\label{fig:parallel circuit}
+\end{figure}
+在图\ref{fig:parallel circuit}中，可以计算出电路的总阻抗\(\left|Z_p\right|\)和相位差$\varphi$为：
+\begin{equation}
+	\left|Z_p\right|=\sqrt{\frac{R^2+(\omega L)^2}{(1-\omega^2 LC)^2+(\omega CR)^2}}
+\end{equation}
+\begin{equation}
+	\varphi=\tan^{-1} \frac{-\omega C(R^2+(\omega L)^2)+\omega L}{R}
+\end{equation}
+与串联情况相同，当$\varphi=0$时电路发生谐振，此时的谐振角频率\(\omega_p\)为：
+\begin{equation}
+	 \omega_p=\sqrt{\frac{1}{CL}-\frac{R^2}{L^2}}
+\end{equation}
+代入串联时的谐振角频率\(\omega_0=\frac{1}{\sqrt{LC}}\)和品质因数\(Q=\frac{1}{R}\sqrt{\frac{L}{C}}\)：
+\begin{equation}
+	\omega_p=\omega_0 \sqrt{1-\frac{1}{Q^2}}
+\end{equation}
+谐振时总阻抗\(\left|Z_p\right|\)为：
+\begin{equation}
+	\left|Z_p\right|=\frac{L}{CR}
+\end{equation}
+与串联情况类似，定义品质因数\(Q_p\);
+\begin{equation}
+	Q_p=\frac{1}{R} \sqrt{\frac{L}{C}-R^2}
+\end{equation}
+类比串联时，\(Q_p\)的意义相同，不同的是，此时\(I_C=IQ\)，而不是电压。
+
+\textbf{注意：并联谐振条件为：并联部分电压$u$与总电流$I_{MAX}$的相位差为0，而不是总阻抗\(\left|Z_p\right|\)取最小值，这两者略有差别.}
+
+\subsection{暂态过程}
+考虑仅有RLC三种元件的串联电路，则其电路方程为
+\begin{equation}
+	L\dv{I}{t}+RI+u_C=0
+\end{equation}
+由\(u_C=\frac{Q}{C}\)得\(I=C\dv{u_C}{t}\),代入得：
+\begin{equation}
+	CL\dv[2]{u_C}{t}+RC\dv{u_C}{t}+u_C=0
+\end{equation}
+结合初始条件\(t=0,u_C=E,\dv{u_C}{t}=0\)，利用数理方程相关知识，可得出方程的解为：
+\[
+u_C = \begin{dcases}
+	E\left[ 1 - \sqrt{\frac{4L}{4L - R^2C}} \exp\left( -\frac{t}{\tau}\right) \cos(\omega t+\varphi) \right]& R^2 < \frac{4L}{C}\\
+	E\left[ 1 - \sqrt{\frac{4L}{R^2C - 4L}} \exp\left( -\alpha t\right) \sinh(\beta t+\varphi)\right] & R^2 >\frac{4L}{C}\\
+	E\left[ 1 - \left(1+\frac{t}{\tau}\right) \exp \left( -\frac{t}{\tau}\right) \right] & R^2 =\frac{4L}{C}
+\end{dcases}
+\]
+其中：
+\[\alpha=\frac{R}{2L} \quad \beta=\frac{1}{\sqrt{LC}} \sqrt{\frac{R^2 C}{4L}-1} \quad \tau=\frac{2L}{R}
+\]
+三支解分别代表了\(R^2 < \frac{4L}{C}\)时的欠阻尼，\(R^2 >\frac{4L}{C}\)时的过阻尼和\(R^2 =\frac{4L}{C}\)时的临界阻尼
+
+
+
+\section{实验内容与注意事项}
+
+\textcolor{red}{
+	\begin{enumerate}
+		\item 若设置不当，可能会出现超过人体安全电压36V的高电压，因此务必需要做到使函数发生器输出总电压的峰峰值不超过3V.
+		\item 由于示波器和信号发生器的负端均连接插头中的地线，故需要仔细选取测量点，使得负端共地.
+	\end{enumerate}
+}
+
+\subsection{测 RLC 串联电路的相频特性和幅频特性曲线}
+\begin{enumerate}
+	\item 取$L =0.1 H$, $C =0.05 \cunit{\mu\mathrm{F}}$, $R =100\cunit{\Omega}$，按图\ref{fig:series circuit}中的方式连接电路，用示波器CH1,CH2通道分别观测RLC串联电路的路端电压$u$和电阻两端电压$u_R$.
+	\item 调谐振:改变函数发生器的输出频率, 找到谐振频率$f_0$. 在谐振时, 用数字多用表测量$u$, $u_L$, $u_C$, 计算$Q$值
+	\item 调节信号发生器的输出频率至期望值，再调节输出电压幅值使得路端电压$u$恒定为2.0V.
+	\item 按动示波器左侧的"MENU"按钮，选取"相位1→2"来测量CH1和CH2之间的相位差.
+	\item 按动示波器左侧的"MENU"按钮，选取"$U_{a}$"来测量CH1和CH2的电压幅值.
+	\item 调节频率至期望值后，确保$u=2.0\mathrm{V}$，记录下CH1和CH2之间的相位差$\varphi$和CH2的信号幅值$u_R$，并通过$u_R$算出电流$I_{MAX}$.
+\end{enumerate}
+\textbf{注意：
+	\begin{enumerate}
+		\item 并不是调节信号发生器的输出电压为2.00V，而是调节信号发生器使得路端电压$u$恒定为2.00V(可以有$\pm0.01\mathrm{V}$的偏差).
+		\item 在每次重新调节频率后，都需要关闭并重新打开显示屏右侧的“统计功能”按钮，以此去除之前数据的影响.
+	\end{enumerate}
+}
+
+\subsection{测 RLC 并联电路的相频特性和幅频特性曲线}
+\begin{enumerate}
+	\item 取$L =0.1 H$, $C =0.05 \cunit{\mu\mathrm{F}}$,  $R'=5\cunit{\mathrm{k}\Omega}$，按图\ref{fig:parallel circuit}中的方式连接电路.
+	\item 用示波器CH1测量总电压，CH2测量$R'$两端电压$u_{R'}$，并通过示波器中的"MATH"功能计算CH1和CH2的电压值相减，得到并联部分的电压$u$.
+	\item 调节信号发生器的输出频率至期望值，再调节输出电压幅值使得CH1信号幅值$u+u_{R'}$恒定为2.0V.
+	\item 按动示波器左侧的"MENU"按钮，选取"$U_{a}$"来测量CH1和CH2的电压幅值.
+	\item 利用光标"CURSOR"功能读出"MATH"计算后的$u$与$u_{R'}$两个峰值间的时差$\delta t$，随后利用公式
+	\begin{equation*}
+		\varphi = \frac{\Delta t}{T} \times 360^\circ = f \Delta t \times 360^\circ
+	\end{equation*}
+	计算出相位差.
+	\item 记录下对应频率的$u$及$u_{R'}$，利用这些数据得出相位差$\varphi$和总电流$I_{MAX}$.
+\end{enumerate}
+\textbf{注意：
+\begin{enumerate}
+	\item 尽管图\ref{fig:parallel circuit}中画出了$R$，但实际上只需要利用电感自带的内阻即可，并不需要额外连入新电阻.
+	\item 应当保持CH1输出信号幅值$u+u_{R'}$恒定为2.00V，而不是$u=2.00\mathrm{V}$(可以有$\pm0.01\mathrm{V}$的偏差)，这是由于在绘制幅频曲线时需要保持总电压不变.
+	\item 在每次重新调节频率后，都需要关闭并重新打开显示屏右侧的“统计功能”按钮，以此去除之前数据的影响.
+\end{enumerate}
+}
+
+\subsection{观测 RLC 串联电路的暂态过程}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[height=3.5cm]{RLC暂态电路原理图.png}
+	\caption{RLC暂态电路原理图}
+	\label{fig:暂态}
+\end{figure}
+图\ref{fig:暂态}为研究RLC串联电路的暂态过程的原理图，实际操作中，利用方波输出来取代开关的开启和关闭.
+\begin{enumerate}
+	\item 取$L =0.1 H$, $C =0.2 \cunit{\mu\mathrm{F}}$，依照图\ref{fig:暂态}的方式连接电路.
+	\item 使信号发生器输出方波，设定电压峰峰值为2.0V，偏移量为1.0V.这样设置使得峰值电压为2V，谷值电压为0V，输出等效于开关的开启和关闭.
+	\item 设置$R=0\Omega$，测量$u_C$波形.
+	\item 调节R测得临界电阻$R_C$.
+	\item 记录$R=2 \cunit{\mathrm{k}\Omega}$, $20 \cunit{\mathrm{k}\Omega}$ 的$u_C$波形. 函数发生器频率可分别选为$250 \unit{Hz}$ ($R=2 \cunit{\mathrm{k}\Omega}$) 和 $20 \unit{Hz}$ ($R=20 \cunit{\mathrm{k}\Omega}$). 
+\end{enumerate}
+
+
+
+\section{实验结果与数据处理}
+
+\subsection{RLC串联电路}
+
+\subsubsection{实验数据}
+\begin{enumerate}
+	
+	\item 调谐振:
+	
+	找到的谐振频率为$f_0= 2.244\unit{kHz}$. 测量得到 $u = 2.01\unit{V}$, $u_C = 7.87\unit{V}$, $u_L  = 7.85\unit{V}$.
+	
+	\item 测相频特性曲线和幅频特性曲线:
+	
+	计算电流:
+	\[
+	I_{MAX} = \frac{U_R}{R} =  \frac{U_R}{100\cunit{\Omega}}
+	\]
+	由于测量的$U_R$单位为$\unit{V}$, 计算的$I_{MAX}$单位为$\unit{mA}$, 故$I_{MAX}$数值上是$U_R$的$10$倍. 实验数据如表\ref{tab:series}.
+\end{enumerate}
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline
+		$f/\mathrm{kHz}$ &  $U(V_{pp}/\mathrm{V})$    & $\Delta t/\cunit{\mu\mathrm{s}}$      & $U_R\mathrm{(Vamp)}/\unit{V}$     &   $I_{MAX}/\unit{mA}$   \\ \hline
+		1.88  & 2.00 & -79.7 & 0.377 & 3.77 \\ \hline
+		2.00  & 2.00 & -72.9 & 0.699 & 6.99 \\ \hline
+		2.08  & 2.00 & -61.2 & 0.908 & 9.08 \\ \hline
+		2.15  & 2.00 & -45.6 & 1.14  & 11.4 \\ \hline
+		2.19  & 2.00 & -29.3 & 1.32  & 13.2 \\ \hline
+		2.22  & 2.00 & -17.7 & 1.44  & 14.4 \\ \hline
+		2.24  & 2.00 & -2.5  & 1.47  & 14.7 \\ \hline
+		2.25  & 2.00 & 3.5   & 1.47  & 14.7 \\ \hline
+		2.26  & 2.00 & 8.6   & 1.45  & 14.5 \\ \hline
+		2.275 & 2.00 & 16.1  & 1.39  & 13.9 \\ \hline
+		2.30  & 2.00 & 27.0  & 1.26  & 12.6 \\ \hline
+		2.36  & 2.00 & 44.8  & 1.00  & 10.0 \\ \hline
+		2.43  & 2.00 & 55.0  & 0.744 & 7.44 \\ \hline
+		2.62  & 2.00 & 71.6  & 0.451 & 4.51 \\ \hline
+		3.18  & 2.00 & 77.2  & 0.187 & 1.87 \\ \hline
+	\end{tabular}
+	\caption{RLC串联电路原始数据记录表}
+	\label{tab:series}
+\end{table}
+
+\subsubsection{数据处理}
+\begin{enumerate}
+	
+	\item 调谐振:
+	
+	理论谐振频率:
+	\[
+	f_0 = \frac{1}{2\pi\sqrt{LC}} \approx 2250.8 \unit{Hz} 
+	\]
+	测得谐振频率:
+	\[f=2.244\unit{kHz}\]
+	相对误差:
+	\[
+	\frac{|2244-2250.8|}{2250.8} = 0.30\%
+	\]
+	误差较小.
+	
+	$Q$理论值:
+	\[
+	Q = \frac{1}{R}\sqrt{\frac{L}{C}} = 14.14
+	\]
+	估算$Q$值:
+	\begin{gather*}
+		Q'_1 = \frac{u_C}{u} = \frac{7.87}{2.01} = 3.92\\
+		Q'_2 = \frac{u_L}{u} = \frac{7.85}{2.01} = 3.91
+	\end{gather*}
+	误差显而易见的大的离谱
+	
+	\item 测相频特性曲线和幅频特性曲线:
+	
+	根据公式, 绘制两曲线的理论与测量图像, 如图\ref{fig:series}:
+	
+	\begin{figure}[htbp]
+		\centering
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=4cm]{串联电路相频特性曲线.png}  % Set height to 4cm, maintain aspect ratio
+			\caption{红色曲线为理论值，蓝色点为测量点}
+			\label{fig:series phase}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+			\centering
+			\includegraphics[height=4cm]{串联电路幅频特性曲线.png}  % Set height to 4cm, maintain aspect ratio
+			\caption{红色曲线为理论值，蓝色点为测量点}
+			\label{fig:series amplitutde}
+		\end{subfigure}
+		\caption{RLC串联电路}
+		\label{fig:series}
+	\end{figure}
+	
+	利用幅频特性曲线再次估计$Q$值:
+	\[
+	Q'' = \frac{f_0}{\Delta f} \approx \frac{2244}{2360-2080}=8.01
+	\]
+	这与理论值$Q$，利用$u$,$u_C$,$u_L$计算出的$Q'$均不同，推测实验中测量$u_C$,$u_L$时可能出现了错误.
+	
+	绘制曲线所用的mathematica代码置于附录中.
+	
+\end{enumerate}
+	
+\subsection{RLC并联电路}
+	
+\subsubsection{实验数据}
+\begin{enumerate}
+	
+	\item 调谐振:
+	
+	找到的谐振频率为$f_p= 2.243\unit{kHz}$.
+	
+	\item 测相频特性曲线和幅频特性曲线:
+	
+	计算相位差的公式:
+	\[
+	\varphi = f \Delta t \times 360^\circ
+	\]
+	
+	计算电流:
+	\[
+	I_{MAX} = \frac{U_{R'}}{R'} =  \frac{U_{R'}}{5000\cunit{\Omega}}
+	\]
+	由于测量的$U_{R'}$单位为$\unit{mV}$, 计算的$I_{MAX}$单位为$\unit{mA}$, 故$I_{MAX}$数值上是$U_R$的$5000$分之一. 实验数据如表.
+	
+	\begin{table}[htbp]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|c|c|}
+			\hline
+			 $f/\unit{kHz}$    & $U(V_{pp})/\unit{V}$ &  $\Delta t/\cunit{\mu\mathrm{s}}$      & $\varphi/\cunit{^\circ}$     & $u\mathrm{(Vamp)}/\unit{V}\mathrm{(CH1-CH2)}$ &$U_{R'}\mathrm{(Vamp)}/\unit{V}$    &  $I_{MAX}/\unit{mA}$     \\ \hline
+			2.050 & 2.00 & 106.0     & 78.23  & 1.81 & 1080 & 0.216  \\ \hline
+			2.150 & 2.00 & 100.0     & 77.40  & 2.07 & 521  & 0.1042 \\ \hline
+			2.200 & 2.00 & 80.0      & 63.36  & 2.07 & 283  & 0.0566 \\ \hline
+			2.231 & 2.00 & 30.0      & 24.09  & 2.08 & 173  & 0.0346 \\ \hline
+			2.240 & 2.00 & 4.0       & 3.23   & 2.05 & 148  & 0.0296 \\ \hline
+			2.247 & 2.00 & -8.0      & -6.47  & 2.05 & 149  & 0.0298 \\ \hline
+			2.250 & 2.00 & -18.0     & -14.58 & 2.05 & 150  & 0.03   \\ \hline
+			2.253 & 2.00 & -24.0     & -19.47 & 2.07 & 156  & 0.0312 \\ \hline
+			2.256 & 2.00 & -34.0     & -27.61 & 2.07 & 157  & 0.0314 \\ \hline
+			2.265 & 2.00 & -52.0     & -42.40 & 2.08 & 207  & 0.0414 \\ \hline
+			2.275 & 2.00 & -62.0     & -50.78 & 2.07 & 271  & 0.0542 \\ \hline
+			2.320 & 2.00 & -88.0     & -73.50 & 2.03 & 509  & 0.1018 \\ \hline
+			2.400 & 2.00 & -96.0     & -82.94 & 1.91 & 960  & 0.192  \\ \hline
+			2.600 & 2.00 & -90.0     & -84.24 & 1.49 & 1560 & 0.312  \\ \hline
+		\end{tabular}
+		\caption{RLC并联电路原始数据记录表}
+		\label{tab: parallel}
+	\end{table}
+\end{enumerate}
+
+\subsubsection{数据处理}
+根据公式, 绘制两曲线的理论与测量图像, 如图\ref{fig:parallel}:
+
+\begin{figure}[htbp]
+	\centering
+	\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+		\centering
+		\includegraphics[height=4cm]{并联电路相频特性曲线.png}  % Set height to 4cm, maintain aspect ratio
+		\label{fig:parallel phase}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+		\centering
+		\includegraphics[height=4cm]{并联电路幅频特性曲线.png}  % Set height to 4cm, maintain aspect ratio
+		\label{fig:parallel amplitutde}
+	\end{subfigure}
+	\caption{RLC并联电路:曲线为电感L取不同电阻时的理论值，绿色点为测量点}
+	\label{fig:parallel}
+\end{figure}
+
+从图中可见，电感L的电阻大约在30$\Omega$附近
+
+\subsection{RLC串联电路的暂态过程}
+\begin{enumerate}
+	\item $R=0 \cunit{\Omega}$, 测量$u_C$波形，见图\ref{fig:R=0}
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[height=3.5cm]{R=0.jpg}
+		\caption{R=0时的暂态过程}
+		\label{fig:R=0}
+	\end{figure}
+	\item  调节$R$ 测得临界电阻$R_C$, 并与理论值比较，临界电阻的计算图像见图\ref{fig:临界电阻}
+	
+	理论计算得出的临界电阻$R_C$:
+	\[
+	R_C = \sqrt{\frac{4L}{C}}= 1.414\cunit{\mathrm{k}\Omega} 
+	\]
+	
+	实验测得的临界电阻$R'_C$:
+	\[
+	R'_C = 1.2\cunit{\mathrm{k}\Omega} 
+	\]
+	\begin{figure}[htbp]
+		\centering
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth, height=3.5cm]{临界电阻1.jpg}
+			\caption{波形边缘振动明显}
+		\end{subfigure}
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth, height=3.5cm]{临界电阻2.jpg}
+			\caption{波形边缘振动较小}
+		\end{subfigure}
+		\begin{subfigure}{0.32\textwidth}
+			\includegraphics[width=\linewidth, height=3.5cm]{临界电阻3.jpg}
+			\caption{波形边缘振动几乎不可见}
+		\end{subfigure}
+		\caption{当不断调节电阻值接近临界电阻时，波形边缘的振动幅度不断减小}
+		\label{fig:临界电阻}
+	\end{figure}
+	
+	理论值大于实际值，结合之前测得的$Q$理论值$Q = \frac{1}{R} \sqrt{ \frac{L}{C} } $也大于实际值，推测在仪器实际的$\frac{L}{C}$值小于标定值
+	\item 记录$R=2 \cunit{\mathrm{k}\Omega}$, $20 \cunit{\mathrm{k}\Omega}$ 的$u_C$波形. 函数发生器频率可分别选为$250 \unit{Hz}$ ($R=2 \cunit{\mathrm{k}\Omega}$) 和 $20 \unit{Hz}$ ($R=20 \cunit{\mathrm{k}\Omega}$). 见图\ref{fig:fuck}
+	
+	\begin{figure}[htbp]
+	\centering
+	\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+		\centering
+		\includegraphics[height=3.5cm]{20Hz.jpg}  % Set height to 4cm, maintain aspect ratio
+		\caption{$20 \unit{Hz}$ ($R=20 \cunit{\mathrm{k}\Omega}$)}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.45\textwidth}  % Align top with [t]
+		\centering
+		\includegraphics[height=3.5cm]{250Hz.jpg}  % Set height to 4cm, maintain aspect ratio
+		\caption{$250 \unit{Hz}$ ($R=2 \cunit{\mathrm{k}\Omega}$}
+	\end{subfigure}
+	\caption{测量图片}
+	\label{fig:fuck}
+	\end{figure}
+\end{enumerate}
+
+
+
+\section{实验感想}
+在本次实验中，我确定的RLC串联及并联电路的谐振频率，绘制了相频/幅频曲线，计算了电路的品质因数；本次实验还观测了暂态过程.
+
+本次实验的主要难点在于仪器的使用，由于本次实验的示波器和信号发生器与之前教授使用的示波器和信号发生器型号不同，因此需要花一些时间来熟悉示波器的操作. 例如，我和不少同学误以为信号发生器的"SYNC"接口是同步输出CH1的正弦波，但实际上它输出了一个频率相同的方波；另外，我在研究如何在示波器上调出“相位1→2”也花了不少时间.
+
+在这次实验中，我意识到实验讲求真实性，所有的试验记录都需要保留，因此即使有错误，也应当划去重写，使用电脑记录固然美观，但是丧失了真实性.
+
+因为这次实验后还有期中考试，因此实验报告延迟了一周交，十分抱歉.
+
+总体上，本次实验不算太难，是一次比较有收获的实验.
+
+
+\newpage
+\noindent {\LARGE 附录}
+
+\appendix
+
+\section{mathematica绘图代码}
+
+串联电路相频特性曲线
+\begin{lstlisting}
+	ClearAll["Global`*"]
+	L = 0.1;
+	c = 0.05*10^(-6);
+	R = 100;
+	\[CurlyPhi][f_] := -ArcTan[(1/(2  c  f  \[Pi]) - 2 f L \[Pi])/R];
+	data = {{1.88*10^(3), -79.7}, {2.00*10^(3), -72.9}, {2.08*10^(3), \
+			-61.2}, {2.15*10^(3), -45.6}, {2.19*10^(3), -29.3}, {2.22*10^(3), \
+			-17.7}, {2.24*10^(3), -2.5}, {2.244*10^(3), 0}, {2.25*10^(3), 
+			3.5}, {2.26*10^(3), 8.6}, {2.275*10^(3), 16.1}, {2.30*10^(3), 
+			27.0}, {2.36*10^(3), 44.8}, {2.43*10^(3), 55.0}, {2.62*10^(3), 
+			71.6}, {3.18*10^(3), 77.2}};
+	Show[Plot[\[CurlyPhi][x]*180/Pi, {x, 1.88*10^(3), 3.18*10^(3)}, 
+	AxesLabel -> {"f/kHz", "\[CurlyPhi]/°"}, PlotStyle -> Red, 
+	PlotLabel -> "串联电路相频特性曲线"], ListPlot[data]]
+\end{lstlisting}
+
+串联电路幅频特性曲线
+\begin{lstlisting}
+	ClearAll["Global`*"]
+	L = 0.1;
+	c = 0.05*10^(-6);
+	R = 100;
+	i[f_] := 200/Sqrt[R^2 + (-2 Pi*f*L + 1/(2 Pi*f*c))^2];
+	data = {{1.88*10^(3), 0.377}, {2.00*10^(3), 0.699}, {2.08*10^(3), 
+			0.908}, {2.15*10^(3), 1.14}, {2.19*10^(3), 1.32}, {2.22*10^(3), 
+			1.44}, {2.24*10^(3), 1.47}, {2.244*10^(3), 1.47}, {2.25*10^(3), 
+			1.47}, {2.26*10^(3), 1.45}, {2.275*10^(3), 1.39}, {2.30*10^(3), 
+			1.26}, {2.36*10^(3), 1.00}, {2.43*10^(3), 0.744}, {2.62*10^(3), 
+			0.451}, {3.18*10^(3), 0.187}};
+	Show[Plot[i[x], {x, 1.88*10^(3), 3.18*10^(3)}, 
+	AxesLabel -> {"f/kHz", "\!\(\*SubscriptBox[\(u\), \(R\)]\)/V"}, 
+	PlotStyle -> Red, PlotLabel -> "串联电路幅频特性曲线"], ListPlot[data]]
+\end{lstlisting}
+
+并联电路相频特性曲线
+\begin{lstlisting}
+	ClearAll["Global`*"]
+	L = 0.1;
+	c = 0.05*10^(-6);
+	
+	\[CurlyPhi][f_, R_] := 
+	ArcTan[(-2  c  f  \[Pi]*(R^2 + (2  f  L  \[Pi])^2) + 
+	2  f  L  \[Pi])/R];
+	data = {{2050, 78.23}, {2150, 77.40}, {2200, 63.36}, {2231, 
+			24.09}, {2240, 
+			3.23}, {2247, -6.47}, {2250, -14.58}, {2253, -19.57}, {2256, \
+			-27.61}, {2265, -42.40}, {2275, -50.78}, {2320, -73.50}, {2400, \
+			-82.94}, {2600, -82.24}};
+	Show[Plot[{\[CurlyPhi][x, 10]*180/Pi, \[CurlyPhi][x, 30]*180/
+		Pi, \[CurlyPhi][x, 50]*180/Pi}, {x, 2.050*10^(3), 2.600*10^(3)}, 
+	AxesLabel -> {"f/Hz", "\[CurlyPhi]/°"}, 
+	PlotLegends -> {"10\[CapitalOmega]", "30\[CapitalOmega]", 
+		"50\[CapitalOmega]"}, PlotStyle -> {Red, Orange, Purple}, 
+	PlotLabel -> "并联电路相频特性曲线"], ListPlot[data, PlotStyle -> Green]]
+\end{lstlisting}
+
+并联电路幅频特性曲线
+\begin{lstlisting}
+	ClearAll["Global`*"]
+	L = 0.1;
+	c = 0.05*10^(-6);
+	
+	i[f_, R_] := 2000/Abs[5000 + 1/(1/(I*2 Pi*f*L + R) + I*2 Pi*f*c)];
+	data = {{2050.`, 0.216`}, {2150.`, 0.1042`}, {2200.`, 
+			0.0566`}, {2231.`, 0.0346`}, {2240.`, 0.0296`}, {2247.`, 
+			0.0298`}, {2250.`, 0.03`}, {2253.`, 0.0312`}, {2256.`, 
+			0.0314`}, {2265.`, 0.0414`}, {2275.`, 0.0542`}, {2320.`, 
+			0.1018`}, {2400.`, 0.192`}, {2600.`, 0.312`}};
+	Show[{Plot[{i[x, 10], i[x, 30], i[x, 50]}, {x, 2.050*10^(3), 
+			2.600*10^(3)}, AxesLabel -> {"f/Hz", "I/mA"}, 
+		PlotLegends -> {"10\[CapitalOmega]", "30\[CapitalOmega]", 
+			"50\[CapitalOmega]"}, PlotStyle -> {Red, Orange, Purple}, 
+		PlotLabel -> "并联电路幅频特性曲线"], ListPlot[data, PlotStyle -> Green]}]
+\end{lstlisting}
+
+\section{原始实验记录表}
+	\includepdf[page=1-2]{RLC原始数据记录表.pdf}
+\end{document}
