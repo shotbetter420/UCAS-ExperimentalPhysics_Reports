@@ -12,3 +12,5 @@
 ---
 
 update: 最终得分92
+
+打个广告：综合物理实验报告 https://github.com/shotbetter420/UCAS_ComprehensivePhysicsExperimentsI
